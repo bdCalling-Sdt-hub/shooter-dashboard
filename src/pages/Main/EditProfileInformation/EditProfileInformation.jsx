@@ -1,19 +1,34 @@
 import { Button, DatePicker, Form, Input, Upload } from "antd";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PhoneInput from "react-phone-number-input";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
 import "react-phone-number-input/style.css";
+import { useGetSingleUserQuery } from "../../../redux/Features/getSingleUserApi";
+import Loading from "../../../Components/Loading";
+import baseURL from "../../../config";
+import Swal from "sweetalert2";
 
 const EditProfileInformation = () => {
     const navigate = useNavigate();
-    
-    const user = "aiman"
     const { id } = useParams();
-  const baseUrl = import.meta.env.VITE_API_URL;
-    const [imageUrl, setImageUrl] = useState(`${baseUrl}${user?.image?.url}`);
+    const {data,isError,isLoading} = useGetSingleUserQuery(id);
+    const user = data?.data?.attributes;
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
+  const [email, setEmail] = useState(user?.email);
+  const [fileList, setFileList] = useState([]);
+    const [imageUrl, setImageUrl] = useState(`${baseUrl}${user?.image?.publicFileURL}`);
+    useEffect(() => {
+      setImageUrl(`${baseUrl}${user?.image?.publicFileURL}`);
+      setEmail(user?.email);
+      setPhoneNumber(user?.phone)
+    }, [data]);
+    if (isLoading) {
+      return <Loading />;
+    }
     const props = {
         action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
         listType: "picture",
@@ -46,52 +61,54 @@ const EditProfileInformation = () => {
         },
       };
       const handleUpdateProfile = async (values) => {
-        // const updateProfile = {
-        //   ...values,
-        //   image: fileList[0]?.originFileObj,
-        //   dateOfBirth: `${values.dateOfBirth.$D}-${values.dateOfBirth.$M + 1}-${
-        //     values.dateOfBirth.$y
-        //   }`,
-        //   phoneNumber,
-        // };
-        // const formData = new FormData();
-        // formData.append("name", updateProfile?.name);
-        // formData.append("email", updateProfile?.email);
-        // formData.append("phoneNumber", updateProfile?.phoneNumber);
-        // formData.append("dateOfBirth", updateProfile?.dateOfBirth);
-        // if (fileList[0]?.originFileObj) {
-        //   formData.append("image", fileList[0]?.originFileObj);
-        // }
-        // try {
-        //   const response = await baseURL.patch(`/users/${id}`, formData);
-        //   if (response.data.code == 200) {
-        //     Swal.fire({
-        //       position: "top-center",
-        //       icon: "success",
-        //       title: response.data.message,
-        //       showConfirmButton: false,
-        //       timer: 1500,
-        //     });
-        //     localStorage.removeItem("user-update");
-        //     localStorage.setItem(
-        //       "user-update",
-        //       JSON.stringify(response?.data?.data?.attributes)
-        //     );
-        //     console.log(response.data);
-        //     // navigate('/dashboard/', { replace: true });
-        //     setTimeout(()=>window.location.reload() , 1700);
+        console.log(values);
+        const updateProfile = {
+          ...values,
+          image: fileList[0]?.originFileObj,
+          phoneNumber,
+        };
+        const formData = new FormData();
+        formData.append("name", updateProfile?.name);
+        formData.append("email", updateProfile?.email);
+        formData.append("phone", updateProfile?.phoneNumber);
+        if (fileList[0]?.originFileObj) {
+          formData.append("image", fileList[0]?.originFileObj);
+        }
+        try {
+          const response = await baseURL.patch(`/user/update/${id}`, formData,{
+            headers: {
+              "Content-Type": "multipart/form-data",
+              authentication: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          if (response?.data?.statusCode == 200) {
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: response.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            localStorage.removeItem("user-update");
+            localStorage.setItem(
+              "user-update",
+              JSON.stringify(response?.data?.data?.attributes)
+            );
+            console.log(response.data);
+            navigate('/', { replace: true });
+            setTimeout(()=>window.location.reload() , 1700);
             
-        //   }
-        // } catch (error) {
-        //   console.log("Registration Fail", error?.response?.data?.message);
-        //   Swal.fire({
-        //     icon: "error",
-        //     title: "Error...",
-        //     text: error?.response?.data?.message,
-        //     footer: '<a href="#">Why do I have this issue?</a>',
-        //   });
-        // }
-        // console.log(updateProfile);
+          }
+        } catch (error) {
+          console.log("Registration Fail", error?.response?.data?.message);
+          Swal.fire({
+            icon: "error",
+            title: "Error...",
+            text: error?.response?.data?.message,
+            footer: '<a href="#">Why do I have this issue?</a>',
+          });
+        }
+        console.log(updateProfile);
       };
     return (
         <div style={{fontFamily:"Aldrich"}}>
@@ -135,7 +152,7 @@ const EditProfileInformation = () => {
                     // beforeUpload={beforeUpload}
                     onChange={({ fileList: newFileList }) => {
                       // console.log(fileList?.fileList[0].originFileObj);
-                    //   setFileList(newFileList);
+                      setFileList(newFileList);
                     }}
                   >
                     <img
@@ -178,10 +195,10 @@ const EditProfileInformation = () => {
                 </div>
                 <div className="flex flex-col justify-center items-center">
                   <p className="text-[20px] text-[white]">
-                    {/* {user?.role.toUpperCase()} */} Admin
+                    {user?.role?.toUpperCase()}
                   </p>
                   <h1 className="text-[white] text-[30px] font-medium">
-                    {/* {user?.name.toUpperCase()} */} Aiman
+                    {user?.name?.toUpperCase()}
                   </h1>
                 </div>
               </div>
@@ -236,7 +253,7 @@ const EditProfileInformation = () => {
                           message: "Please input your Email!",
                         },
                       ]}
-                      initialValue={user?.email}
+                      initialValue={email || user?.email}
                     >
                       <Input
                         placeholder="Email"
@@ -267,11 +284,11 @@ const EditProfileInformation = () => {
                         marginTop: "12px",
                       }}
                       defaultCountry="US"
-                    //   value={phoneNumber}
-                    //   onChange={setPhoneNumber}
+                      value={phoneNumber?.toString()}
+                      onChange={setPhoneNumber}
                     />
                   </div>
-                  <div className="flex-1">
+                  {/* <div className="flex-1">
                     <Form.Item
                       label={
                         <span style={{fontFamily:"Aldrich"}} className="text-[white] text-[18px] font-medium">
@@ -307,7 +324,7 @@ const EditProfileInformation = () => {
                         // }
                       />
                     </Form.Item>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

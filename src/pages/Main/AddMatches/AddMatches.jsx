@@ -107,10 +107,10 @@ const AddMatches = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1600);
-        // navigate("/matches");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1600);
+        navigate("/matches");
       }
     }catch(error){
       Swal.fire({
@@ -126,7 +126,7 @@ const AddMatches = () => {
     <div className="ml-[24px] overflow-auto">
       <div className="mt-[44px] cursor-pointer text-white flex items-center pb-3 gap-2">
         <MdOutlineKeyboardArrowLeft
-          onClick={() => navigate("/events")}
+          onClick={() => navigate("/matches")}
           size={34}
         />
         <h1 className="text-[24px] text-primary font-semibold">Add Matches</h1>
@@ -415,7 +415,7 @@ const AddMatches = () => {
               height: "56px",
             }}
           >
-            Add Event
+            Add Match
           </Button>
         </Form>
       </div>

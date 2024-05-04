@@ -27,7 +27,7 @@ const Header = () => {
           onClick={(e) => navigate("notification")}
           className="relative flex items-center "
         >
-          <Badge style={{ backgroundColor: "red" }} count={5}>
+          <Badge style={{ backgroundColor: "red" }} count={1}>
             <IoIosNotificationsOutline
               style={{ cursor: "pointer" }}
               className={` bg-primary w-[52px] h-[52px] text-[#FA1131] border-2 border-[#FA1131] rounded-full p-2 `}

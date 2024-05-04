@@ -77,7 +77,9 @@ const MatchesCart = ({match}) => {
             <span className="bg-[#fdf7f8] px-2 py-1 absolute top-2 left-2 text-[#FA1131] rounded-md font-bold
             ">{matchDate?.split("T")[0]}</span>
           </div>
+          <h1 className="text-[18px] mt-4"> Event Name : {event}</h1>
           <div className="text-black flex justify-between items-center my-[12px]">
+          
               <h1 className="text-[18px]">{matchName}</h1>
               <div className="flex gap-2">
                  <FaRegClock />
@@ -96,6 +98,9 @@ const MatchesCart = ({match}) => {
           <div className="flex justify-between mt-[24px]">
               <p onClick={() => handleDelete(_id)} className="flex justify-center w-[160px] cursor-pointer text-[#FA1131] py-[8px] bg-[#ffe5e8] border-2 border-[#FA1131] rounded-md">Delete</p>
               <Link to={`/matches/edit-matches/${_id}`} className="flex justify-center w-[160px] cursor-pointer text-white py-[8px] bg-[#FA1131] rounded-md">Edit</Link>
+          </div>
+          <div>
+          <Link to={`/matches/upload-score/${_id}`} className="flex mt-3 justify-center cursor-pointer text-white py-[8px] bg-[#281F1F] rounded-md">Upload Score</Link>
           </div>
         </div>
       </div>

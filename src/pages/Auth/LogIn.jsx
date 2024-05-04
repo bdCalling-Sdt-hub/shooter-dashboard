@@ -22,7 +22,7 @@ const LogIn = () => {
     try {
       const response = await baseURL.post(
         `/user/sign-in`,
-        { email, password },
+        { email, password, loginType:3 },
         {
           headers: {
             "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const LogIn = () => {
           },
         }
       );
-      console.log(response?.data);
+      console.log(response);
       if (response?.data?.statusCode == 200) {
         localStorage.setItem("token", response?.data?.data?.token);
         localStorage.setItem(
@@ -51,7 +51,7 @@ const LogIn = () => {
       Swal.fire({
         icon: "error",
         title: "Try Again...",
-        text: error?.response?.data,
+        text: error?.response?.data?.message,
         footer: '<a href="#">Why do I have this issue?</a>',
       });
     }

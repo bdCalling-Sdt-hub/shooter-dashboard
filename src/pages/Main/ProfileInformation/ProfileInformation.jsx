@@ -16,12 +16,13 @@ const ProfileInformation = () => {
     console.log(user);
     setCurrentUser(user);
   },[])
+  console.log("uuuuuser",currentUser);
     return (
         <div>
       <div className="flex justify-between items-center ml-[24px] mt-[40px] mb-[63px]">
         <h1 className="text-[30px] font-medium text-white">Profile Information</h1>
         <div
-            onClick={(e) =>navigate(`/edit-profile/${currentUser?.id}`)}
+            onClick={(e) =>navigate(`/edit-profile/${currentUser?._id}`)}
           className="flex gap-2 items-center py-[15px]
                  px-[40px]
                   bg-[#FA1131]
@@ -38,13 +39,13 @@ const ProfileInformation = () => {
         <div className="w-[33%] ml-[24px] flex flex-col justify-center items-center gap-[30px]">
           <img
             className="w-[242px] h-[242px] rounded-full"
-            src={`${baseUrl}${currentUser?.image?.url}`}
+            src={`${import.meta.env.VITE_BASE_URL}${currentUser?.image?.publicFileURL}`}
             alt=""
           />
           <div className="flex flex-col justify-center items-center">
-            <p className="text-[20px] text-[white]">{currentUser?.role.toUpperCase()|| "Admin"}</p>
+            <p className="text-[20px] text-[white]">{currentUser?.role?.toUpperCase() || "Admin"}</p>
             <h1 className="text-[white] text-[30px] font-medium">
-             {currentUser?.name.toUpperCase() || "Ahad Hossain Aiman"}
+             {currentUser?.name?.toUpperCase() || "Ahad Hossain Aiman"}
             </h1>
           </div>
         </div>
@@ -68,6 +69,7 @@ const ProfileInformation = () => {
                justify-start 
                border-none
                mt-[12px]
+               text-white
                items-center 
                gap-4 inline-flex outline-none focus:border-none focus:bg-[#706768] hover:bg-[#706768]"
                   type="text"
@@ -91,6 +93,7 @@ const ProfileInformation = () => {
                 rounded w-full 
                 justify-start 
                 border-none
+                text-white
                 mt-[12px]
                 items-center 
                 gap-4 inline-flex outline-none focus:border-none focus:bg-[#706768] hover:bg-[#706768]"
@@ -107,20 +110,21 @@ const ProfileInformation = () => {
               </label>
               <Input
             
-                placeholder="Email"
-                value={currentUser?.phoneNumber}
+                placeholder="Phone"
+                value={currentUser?.phone || "Not Provided"}
                 className="p-4 bg-[#706768]
                 rounded w-full 
                 justify-start 
                 border-none
                 mt-[12px]
+                text-white
                 items-center 
                 gap-4 inline-flex outline-none focus:border-none focus:bg-[#706768] hover:bg-[#706768]"
                 type="text"
                 readOnly
               />
             </div>
-            <div className="flex-1">
+            {/* <div className="flex-1">
               <label
                 htmlFor=""
                 className="text-white  text-[18px] font-medium mb-[12px]"
@@ -130,18 +134,19 @@ const ProfileInformation = () => {
               <Input
                 // onChange={(e) => setDateOfBirth(e.target.value)}
                 placeholder="Date Of Birth"
-                value={currentUser?.dateOfBirth}
+                value={currentUser?.dateOfBirth?.split("T")[0]}
                 className="p-4 bg-[#706768]
                rounded w-full 
                justify-start 
                border-none
                mt-[12px]
+               text-white
                items-center 
                gap-4 inline-flex outline-none focus:border-none focus:bg-[#706768] hover:bg-[#706768]"
                 prefix={<CiCalendarDate color="white" size={20} />}
                
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

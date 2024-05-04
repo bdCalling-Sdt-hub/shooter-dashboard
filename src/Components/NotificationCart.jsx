@@ -25,27 +25,28 @@ function calculateTimeDifference(dateString) {
 }
 
 const NotificationCart = ({item}) => {
+  const {message,createdAt} = item;
     return (
         <div  className={`flex rounded-lg my-[16px]  ${
-            "true" ? "bg-white" : "bg-[#e8e6fca8]"
+            "true" ? "bg-[#FFE7EA21]" : "bg-[#e8e6fca8]"
         } p-[16px] gap-[16px] justify-between items-center`}>
              <div className={`flex gap-[16px] items-center p-[16px] `}>
               {/* <div className="w-10 h-10 flex p-[7px] rounded bg-[#EEF6EA] "> */}
               <IoIosNotificationsOutline
                 style={{ cursor: "pointer" }}
-                className={` bg-primary w-[52px] h-[52px] text-[#FA1131] border-2 border-[#3BA6F6] rounded-full p-2 `}
+                className={` bg-primary w-[52px] h-[52px] text-[#FA1131] border-2 border-[#FA1131] rounded-full p-2 `}
               />
               {/* </div> */}
               
-                <h1 className="text-[16px] font-normal">
-                    {`Ahad`} has booked an appointment for 
-                    {/* {message}. */}
+                <h1 className="text-[16px] text-white font-normal">
+                    
+                    {message}.
                 </h1>
                 {/* <p className="text-[14px] text-[#979797]">{formatDate(createdAt)}</p> */}
             
             </div>
             <div>
-                <small>{calculateTimeDifference("2024-03-08T09:52:49.972Z")}</small>
+                <small className="text-white">{calculateTimeDifference(createdAt)}</small>
             </div>
         </div>
     );

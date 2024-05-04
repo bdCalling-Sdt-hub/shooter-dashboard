@@ -227,7 +227,7 @@ body {
 }
 
 .ant-picker-outlined:focus-within {
-  background-color: #FFE7EA4F;
+  background-color: #FFE7EA4F !important;
 }
 .ant-picker-outlined:hover{
   background-color: #FFE7EA4F;
@@ -252,9 +252,7 @@ body {
 .ant-upload-wrapper .ant-upload-list .ant-upload-list-item .ant-upload-list-item-actions .anticon{
   color: #FA1131;
 }
-.jodit-container {
-  background-color: #FFE7EA4F !important; /* Change this to the desired background color */
-}
+
 
 
 .ant-checkbox+span {
@@ -290,3 +288,31 @@ body {
   width: 242px !important;
   border-radius: 40%;
 } */
+
+.jodit-workplace{
+  height: 400px!important;
+}
+.ant-upload{
+  /* background-color: white !important; */
+  width: 242px !important;
+  border-radius: 40%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #FA1131; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

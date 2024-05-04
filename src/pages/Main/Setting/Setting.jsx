@@ -14,6 +14,8 @@ import { GoArrowLeft } from "react-icons/go";
 // import baseURL from "../../../config";
 // import Swal from "sweetalert2";
 import { HiOutlineMailOpen } from "react-icons/hi";
+import baseURL from "../../../config";
+import Swal from "sweetalert2";
 
 const Setting = () => {
     const navigate = useNavigate();
@@ -25,6 +27,11 @@ const Setting = () => {
   const onChange = (checked) => {
     console.log(`switch to ${checked}`);
   };
+
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("user-update"))
+    setEmail(user?.email)
+  },[])
 
     const settingsItem = [
 
@@ -70,18 +77,130 @@ const Setting = () => {
         }
       };
     
-    const handleChangePassword = (values) =>{
+    const handleChangePassword = async (values) =>{
+      const {newPassword,oldPassword} = values
+      try {
+        const response = await baseURL.post(
+          `/user/change-password`,{oldPassword,newPassword},{
+            headers: {
+              "Content-Type": "application/json",
+              authentication: `Bearer ${localStorage.getItem("token")}`,
+            }
+          }
+        )
+        console.log(response);
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Try Again...",
+          text: error?.response?.data?.message,
+          footer: '<a href="#">Why do I have this issue?</a>',
+        })
+      }
         console.log(values);
     }  
-    const handleVerifyOtp = (values) =>{
-        console.log(values);
-        setModelTitle("Reset Password")
+
+
+
+    const handleVerifyOtp = async (e) =>{
+  e.preventDefault();
+  try {
+    const response = await baseURL.post(`/user/verify-code`, {
+      email: email,
+      code: otp,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authentication: `Bearer ${localStorage.getItem("token")}`,
+      }
     }
-    const handleResetPassword = (values) =>{
-        console.log(values);
+  
+  );
+
+    console.log(response.data);
+    const token = response?.data?.data?.token;
+    console.log(token);
+    if (response.data.statusCode == 200) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", response?.data?.data?.attributes?.user);
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: response.data.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      // navigate(`/set_new_password/${email}`);
+      setModelTitle("Reset Password");
     }
-    const handleForgetPassword = (values) =>{
+  } catch (error) {
+    console.log("Registration Fail", error?.response?.data?.message);
+    Swal.fire({
+      icon: "error",
+      title: "Error...",
+      text: error?.response?.data?.message,
+      footer: '<a href="#">Why do I have this issue?</a>',
+    });
+  }
+}
+
+
+    const handleResetPassword = async (values) =>{
+        console.log(values,email);
+        const data = { email: email, password: values?.password };
+    console.log(data);
+    try {
+      const response = await baseURL.post(`/user/set-password`, data,{
+        headers: {
+          "Content-Type": "application/json",
+          authentication: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+
+      console.log(response.data);
+      if (response.data.statusCode == 200) {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.log("Registration Fail", error?.response?.data?.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error...",
+        text: error?.response?.data?.message,
+        footer: '<a href="#">Why do I have this issue?</a>',
+      });
+    }
+    }
+
+
+    const handleForgetPassword = async (values) =>{
         console.log(values);
+        try {
+          const response = await baseURL.post(
+            `/user/forgot-password`,values,{
+              headers: {
+                "Content-Type": "application/json",
+                authentication: `Bearer ${localStorage.getItem("token")}`,
+              }
+            }
+          )
+          console.log(response);
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Try Again...",
+            text: error?.response?.data?.message,
+            footer: '<a href="#">Why do I have this issue?</a>',
+          })
+        }
         setModelTitle("Verify OTP");
     }
       
@@ -108,35 +227,7 @@ const Setting = () => {
           </div>
         ))}
   
-        {/* <div className="flex justify-between rounded-lg items-center px-[24px] py-[16px] bg-[white]">
-          <p className="text-[18px] text-[#222222] font-medium">Notification</p>
-          <Switch defaultChecked onChange={onChange} />
-        </div>
-        <div className="flex justify-between rounded-lg my-[24px] items-center px-[24px] py-[16px] bg-[white]">
-          <p className="text-[18px] text-[#222222] font-medium">
-            Change Password
-          </p>
-          <MdKeyboardArrowRight size={20} />
-        </div>
-        <Modal
-          title={
-            <div
-              onClick={() => setIsModalOpen(false)}
-              className="flex items-center cursor-pointer justify-start gap-4 text-[#0071E3] mb-4"
-            >
-              <IconChevronLeft />
-              <p>{modelTitle}</p>
-            </div>
-          }
-          open={isModalOpen}
-          onOk={() => setIsModalOpen(false)}
-          onCancel={() => setIsModalOpen(false)}
-          footer={[]}
-        ></Modal>
-        <div className="flex justify-between rounded-lg my-[24px] items-center px-[24px] py-[16px] bg-[white]">
-          <p className="text-[18px] text-[#222222] font-medium">About Us</p>
-          <MdKeyboardArrowRight size={20} />
-        </div> */}
+     
         <Modal
           title={
             <div
@@ -168,25 +259,7 @@ const Setting = () => {
           onCancel={() => setIsModalOpen(false)}
           footer={[]}
         >
-          {/* {modelTitle === "Set hidden fee percentage" && (
-                <form>
-                  <input
-                    type="text"
-                    className="my-4 w-full bg-transparent border-b py-3 px-2 outline-none focus:border-[#b278fb] duration-100"
-                    placeholder="Set hidden fee percentage"
-                    name=""
-                    id=""
-                  />
-  
-                  <button
-                    type="submit"
-                    className="bg-[#b278fb]
-              text-white mt-5 py-3 rounded-full w-full hover:bg-white hover:text-[#b278fb] duration-200"
-                  >
-                    Save
-                  </button>
-                </form>
-              )} */}
+          
   
           {modelTitle === "Change password" && (
             <div style={{fontFamily:'Aldrich'}} className="px-[60px] pb-[60px]">
@@ -402,6 +475,7 @@ const Setting = () => {
                         border: "1px solid red",
                         marginRight: "20px",
                         outline: "none",
+                        color: "white",
                       }}
                     renderInput={(props) => <input {...props} />}
                   />

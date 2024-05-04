@@ -10,85 +10,22 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-const data = [
-  {
-    name: "Jan",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Feb",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Mar",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Apr",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "May",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Jun",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Jul",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Aug",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Sep",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Oct",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Nov",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Dec",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+import { useGetChartQuery } from "../redux/Features/getChartApi";
+import Loading from "./Loading";
+import { useState } from "react";
+
 
 const BarChartIncomeRatio = () => {
+  const [year,setYear ] = useState('2024');
+  const {data:chart,isError,isLoading,isSuccess} = useGetChartQuery(year);
+  if(isLoading){
+    return <Loading/>
+  }
   const onChange = (date, dateString) => {
-    console.log(date, dateString);
+    console.log(dateString);
+    setYear(dateString)
   };
+ console.log(chart);
   return (
     <div className="bg-[#281F1F] w-full text-white  h-[318px] mt-5 rounded-xl border-2 border-[#FA1131] shadow-xl ">
       <div className="flex justify-between p-[16px]">
@@ -105,11 +42,11 @@ const BarChartIncomeRatio = () => {
               </div>
             </div> */}
         </div>
-        <div className="">
+        <div className="bg-[#281F1F]">
           <DatePicker
             className="custom-date-picker"
             onChange={onChange}
-            picker="month"
+            picker="year"
             suffixIcon
           />
         </div>
@@ -118,7 +55,7 @@ const BarChartIncomeRatio = () => {
         <BarChart
           width={1500}
           height={250}
-          data={data}
+          data={chart?.data?.attributes}
           margin={{
             top: 5,
             right: 30,
@@ -130,7 +67,7 @@ const BarChartIncomeRatio = () => {
           <XAxis dataKey="name" tick={{ stroke: "white", strokeWidth: 0.5 }} />
           <YAxis tick={{ stroke: "white", strokeWidth: 0.5 }} />
           <Bar
-            dataKey="uv"
+            dataKey="price"
             fill="#FA1131"
             barSize={36}
             // activeBar={<Rectangle fill="pink" stroke="green" />}

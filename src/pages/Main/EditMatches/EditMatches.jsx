@@ -136,7 +136,7 @@ const handleEditMatch = async (values) =>{
             onClick={() => navigate("/matches")}
             size={34}
           />
-          <h1 className="text-[24px] text-primary font-semibold">Add Matches</h1>
+          <h1 className="text-[24px] text-primary font-semibold">Edit Match</h1>
         </div>
         <div>
           <Form
@@ -466,11 +466,11 @@ const handleEditMatch = async (values) =>{
                 height: "56px",
               }}
             >
-              Add Event
+              Edit Match
             </Button>
           </Form>
         </div>
-      </div>
+        </div>
     );
 }
 

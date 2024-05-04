@@ -112,9 +112,9 @@ const EventsRegister = () => {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
+        <Space size="middle ">
          
-            <BsInfoCircle  onClick={() => handleView(record)}  size={18} className="text-[red] " />
+            <BsInfoCircle  onClick={() => handleView(record)}  size={18} className="text-[red] cursor-pointer" />
           
           {/* <a><RxCross2 size={18} className='text-[red]'/></a> */}
         </Space>
@@ -197,7 +197,7 @@ const EventsRegister = () => {
           <div className="flex justify-between border-b py-[16px] ">
             <p>Date of Birth:</p>
             <p>
-              {user?.user?.dateOfBirth}
+              {user?.user?.dateOfBirth?.split("T")[0] ? user?.user?.dateOfBirth?.split("T")[0] : "N/A"}
             </p>
           </div>
           <div className="flex justify-between border-b py-[16px]">
@@ -209,13 +209,14 @@ const EventsRegister = () => {
           <div className="flex justify-between border-b py-[16px]">
             <p>Phone Number:</p>
             <p>
-              {user?.clubName ? user?.clubName : "N/A"}
+            {user?.user?.phone ? user?.user?.phone : "N/A"}
+             
             </p>
           </div>
           <div className="flex justify-between border-b py-[16px]">
             <p>Club Name:</p>
             <p>
-              {user?.user?.phone ? user?.user?.phone : "N/A"}
+            {user?.clubName ? user?.clubName : "N/A"}
             </p>
           </div>
           <div className="flex justify-between items-center pt-[16px]">

@@ -24,6 +24,8 @@ import EditAboutUs from "../pages/Main/Setting/EditAboutUs";
 import ProfileInformation from "../pages/Main/ProfileInformation/ProfileInformation";
 import EditProfileInformation from "../pages/Main/EditProfileInformation/EditProfileInformation";
 import Notification from "../pages/Main/Notification/Notification";
+import AdminRoutes from "./AdminRoute";
+import UploadScore from "../pages/Main/UploadScore/UploadScore";
 
 
 
@@ -31,7 +33,7 @@ import Notification from "../pages/Main/Notification/Notification";
 const router = createBrowserRouter([
     {
       path: "/",
-      element: <Main />,
+      element: <AdminRoutes><Main /></AdminRoutes>,
       children: [
         {
           path: "/",
@@ -81,7 +83,10 @@ const router = createBrowserRouter([
           path: "/matches/edit-matches/:id",
           element: <EditMatches/>,
         },
-  
+        {
+          path: "/matches/upload-score/:id",
+          element: <UploadScore/>,
+        },
         {
           path: "/settings",
           element: <Setting />,
