@@ -401,7 +401,7 @@ const handleEditMatch = async (values) =>{
             <div className="flex gap-5">
               <Form.Item
                 name="prone"
-                label={<span className="text-white text-[18px] ">Prone</span>}
+                label={<span className="text-white text-[18px] ">Discipline</span>}
                 className="flex-1"
                 rules={[
                   {

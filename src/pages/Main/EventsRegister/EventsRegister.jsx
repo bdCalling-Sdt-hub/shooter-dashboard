@@ -124,7 +124,7 @@ const EventsRegister = () => {
 
   const handleView = (value) => {
     setUser(value);
-    console.log(value)
+    console.log(value);
     setIsModalOpen(true);
   };
   const onChange = (date, dateString) => {

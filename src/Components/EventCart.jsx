@@ -105,6 +105,8 @@ console.log("img",image);
           <div>
             <p className="text-[10px]">Started In:</p>
             <p className="text-[12px]">{formattedDuration}</p>
+            <p className="text-[10px] mt-2">Closing Date:</p>
+           < p className="text-[12px]">{closingDate?.split("T")[0]}</p>
           </div>
         </div>
         <div className="text-white flex items-center gap-2">
