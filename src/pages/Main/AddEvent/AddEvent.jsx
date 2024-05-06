@@ -188,7 +188,7 @@ const AddEvent = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your First Name!",
+                  message: "Please input Location!",
                 },
               ]}
             >
@@ -218,7 +218,7 @@ const AddEvent = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your First Name!",
+                  message: "Please input Event Closing Date!",
                 },
               ]}
             >
@@ -249,7 +249,7 @@ const AddEvent = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your  Started In!",
+                  message: "Please input Started In!",
                 },
               ]}
             >
@@ -281,7 +281,7 @@ const AddEvent = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your First Name!",
+                  message: "Please input Image!",
                 },
               ]}
             >

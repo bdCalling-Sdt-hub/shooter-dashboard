@@ -183,13 +183,13 @@ console.log(response);
             <Form.Item
               name="name"
               label={
-                <span className="text-white text-[18px] ">Events Name</span>
+                <span className="text-white text-[18px]">Events Name</span>
               }
               className="flex-1"
               rules={[
                 {
                   required: true,
-                  message: "Please input your Events Name!",
+                  message: "Please input Events Name!",
                 },
               ]}
             >
@@ -217,7 +217,7 @@ console.log(response);
               rules={[
                 {
                   required: true,
-                  message: "Please input your First Name!",
+                  message: "Please input Location!",
                 },
               ]}
             >
@@ -279,7 +279,7 @@ console.log(response);
               rules={[
                 {
                   // required: true,
-                  message: "Please input your  Started In!",
+                  message: "Please input Started In!",
                 },
               ]}
             >
@@ -303,7 +303,7 @@ console.log(response);
 
             <Form.Item
               label={
-                <span className="text-[white]  text-[18px] ">
+                <span className="text-[white] text-[18px] ">
                   {" "}
                   Upload Image
                 </span>
@@ -313,7 +313,7 @@ console.log(response);
               rules={[
                 {
                   // required: true,
-                  message: "Please input your First Name!",
+                  message: "Please input Image!",
                 },
               ]}
             >

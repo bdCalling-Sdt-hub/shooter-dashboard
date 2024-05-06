@@ -30,9 +30,8 @@ const AddMatches = () => {
   const { data, isLoading, isSuccess } = useGetAllEventQuery();
   const navigate = useNavigate();
   const [matchDate, setMatchDate] = useState("");
-  const  [matchTime,setMatchTime] = useState("");
+  const [matchTime, setMatchTime] = useState("");
 
- 
   // const editor = useRef(null);
 
   console.log(data?.data);
@@ -66,16 +65,14 @@ const AddMatches = () => {
     setMatchTime(dateStr);
   };
 
-
-
-  const handleAddMatch = async(values) => {
-    try{
+  const handleAddMatch = async (values) => {
+    try {
       const match = {
         ...values,
         matchDate: matchDate,
         time: matchTime,
-      }
-      console.log("---------------",match);
+      };
+      console.log("---------------", match);
       const formData = new FormData();
 
       formData.append("matchName", match?.matchName);
@@ -89,17 +86,14 @@ const AddMatches = () => {
         formData.append("image", match?.image?.fileList[0].originFileObj);
       }
 
-
-
-      const response = await baseURL.post(
-        "/match/add",formData,{
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
+      const response = await baseURL.post("/match/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       console.log(response?.data);
-      if(response?.data?.statusCode == 200){
+      if (response?.data?.statusCode == 200) {
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -112,15 +106,14 @@ const AddMatches = () => {
         }, 1600);
         navigate("/matches");
       }
-    }catch(error){
+    } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Try Again...",
         text: error?.response?.data?.message,
         footer: '<a href="#">Why do I have this issue?</a>',
-      })
+      });
     }
-   
   };
   return (
     <div className="ml-[24px] overflow-auto">
@@ -212,7 +205,7 @@ const AddMatches = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Gender!",
+                  message: "Please input Gender!",
                 },
               ]}
             >
@@ -267,7 +260,7 @@ const AddMatches = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Match Date!",
+                  message: "Please input Match Date!",
                 },
               ]}
             >
@@ -295,7 +288,7 @@ const AddMatches = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your  Started In!",
+                  message: "Please input Start Time!",
                 },
               ]}
             >
@@ -325,7 +318,7 @@ const AddMatches = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your First Name!",
+                  message: "Please input Image!",
                 },
               ]}
             >
@@ -350,7 +343,9 @@ const AddMatches = () => {
           <div className="flex gap-5">
             <Form.Item
               name="prone"
-              label={<span className="text-white text-[18px] ">Discipline</span>}
+              label={
+                <span className="text-white text-[18px] ">Discipline</span>
+              }
               className="flex-1"
               rules={[
                 {
@@ -382,7 +377,7 @@ const AddMatches = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Match Date!",
+                  message: "Please input Match Entry Fee!",
                 },
               ]}
             >
