@@ -6,9 +6,21 @@ import Swal from "sweetalert2";
 
 const EventCart = ({ event }) => {
   // eslint-disable-next-line react/prop-types, no-unused-vars
-  const { name, description, closingDate, startedDate, location, image, _id } = event;
-  console.log(event);
-  const startingDate = new Date(startedDate);
+  const {
+    eventName,
+    location,
+    description,
+    image,
+    closeDate,
+    eventDate,
+    matches,
+    fee,
+    eventTime,
+    _id,
+  } = event;
+  console.log(eventName);
+  const startingDate = new Date(eventDate);
+  console.log(matches);
 
   // Current date
   const currentDate = new Date();
@@ -35,7 +47,6 @@ const EventCart = ({ event }) => {
     formattedDuration = `${days}d : ${hours}h : ${minutes}m`;
   }
 
-  
   const handleDelete = async (id) => {
     try {
       const result = await Swal.fire({
@@ -45,7 +56,7 @@ const EventCart = ({ event }) => {
         confirmButtonText: "Yes",
         denyButtonText: "No",
       });
-      
+
       if (result.isConfirmed) {
         const response = await baseURL.delete(`/events/remove/${id}`, {
           headers: {
@@ -54,20 +65,18 @@ const EventCart = ({ event }) => {
           },
         });
         console.log(response);
-        if(response?.data?.statusCode == 200){
+        if (response?.data?.statusCode == 200) {
           // Swal.fire({
           //   position: 'top-center',
           //   icon: 'success',
           //   title: response.data.message,
           //   showConfirmButton: false,
-          //   timer: 1500 
+          //   timer: 1500
           // });
           setTimeout(() => {
             window.location.reload();
           }, 1600);
         }
-
-
       } else if (result.isDenied) {
         Swal.fire("Cancelled", "", "info");
       }
@@ -77,12 +86,7 @@ const EventCart = ({ event }) => {
     }
   };
 
-
-     
-
-    
-
-console.log("img",image);
+  console.log("img", image);
   // console.log(formattedDuration);
   return (
     <div className="border-2 border-[#FA1131] w-[370px] rounded-lg bg-[#FFE7EA21]">
@@ -97,21 +101,46 @@ console.log("img",image);
             className="bg-[#ffe5e8] px-2 py-1 absolute top-2 left-2 text-[#FA1131] rounded-md font-bold
           "
           >
-           {startedDate?.split("T")[0]}
+            {eventDate?.split("T")[0]}
           </span>
         </div>
-        <div className="text-white flex justify-between my-[12px]">
-          <h1 className="text-[18px]">{name}</h1>
-          <div>
-            <p className="text-[10px]">Started In:</p>
-            <p className="text-[12px]">{formattedDuration}</p>
-            <p className="text-[10px] mt-2">Closing Date:</p>
-           < p className="text-[12px]">{closingDate?.split("T")[0]}</p>
+        <div>
+          <div className="text-white flex justify-between mt-[12px]">
+            <div>
+              <h1 className="text-[28px]">{eventName}</h1>
+              <p className="text-[10px] mt-2">Event Date:</p>
+              <p className="text-[12px]">{eventDate?.split("T")[0]}</p>
+            </div>
+            <div className="mt-[12px]">
+              <div className="text-white flex items-center gap-1 my-2">
+                <CiLocationOn />
+                <p className="text-[12px]">{location}</p>
+              </div>
+              <p className="text-[10px]">Started In:</p>
+              <p className="text-[12px]">{formattedDuration}</p>
+              <p className="text-[10px] mt-2">Registration Closing Date:</p>
+              <p className="text-[12px]">{closeDate?.split("T")[0]}</p>
+            </div>
           </div>
         </div>
-        <div className="text-white flex items-center gap-2">
-          <CiLocationOn />
-          <p className="text-[12px]">{location}</p>
+<p className="text-[22px] text-white">Matches</p>
+        <div className="grid grid-cols-2">
+         
+          {
+            // eslint-disable-next-line react/prop-types
+            matches?.map((match, index) => (
+              <div
+                key={index}
+                className="text-[12px] text-[white] flex gap-3 mt-2"
+              >
+                <div>
+                  <p>{`Match ${index + 1}`}</p>
+                  <p>Match: {match?.matchName}</p>
+                  <p>Description: {match?.description}</p>
+                </div>
+              </div>
+            ))
+          }
         </div>
         <div className="flex justify-between mt-[24px]">
           <p

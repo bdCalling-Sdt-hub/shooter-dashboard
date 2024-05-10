@@ -5,6 +5,7 @@ import {
   ConfigProvider,
   Space,
   Typography,
+  TimePicker,
 } from "antd";
 import React, { useRef, useState } from "react";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
@@ -12,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import JoditEditor from "jodit-react";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import en from "antd/es/date-picker/locale/en_US";
 import enUS from "antd/es/locale/en_US";
 import dayjs from "dayjs";
@@ -38,13 +40,13 @@ const { Title } = Typography;
 // const defaultValue = dayjs("2024-01-01");
 
 const AddEvent = () => {
-  const [startDate, setStartDate] = useState("");
+  const [eventDate, setEventDate] = useState("");
   const [closeDate, setCloseDate] = useState("");
   const [setEvent, response] = usePostEventMutation();
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const editor = useRef(null);
-
+  const [eventTime, setEventTime] = useState("");
 
   const props = {
     name: "file",
@@ -63,13 +65,18 @@ const AddEvent = () => {
       }
     },
   };
+
   const onChangeClosingDate = (_, dateStr) => {
     console.log("onChange:", dateStr);
     setCloseDate(dateStr);
   };
-  const onChangeStartingDate = (_, dateStr) => {
+  const onChangeEventDate = (_, dateStr) => {
     console.log("onChange:", dateStr);
-    setStartDate(dateStr);
+    setEventDate(dateStr);
+  };
+  const onChangeTime = (_, dateStr) => {
+    console.log("onChange:", dateStr);
+    setEventTime(dateStr);
   };
 
   const handleAddEvent = async (values) => {
@@ -77,31 +84,32 @@ const AddEvent = () => {
       const event = {
         ...values,
         description,
-        date: closeDate,
-        startedIn: startDate,
+        closeDate,
+        eventDate,
+        eventTime,
       };
       console.log(event);
       const formData = new FormData();
 
-      formData.append("name", event?.name);
+      formData.append("eventName", event?.eventName);
       formData.append("location", event?.location);
-      formData.append("closingDate", event?.date);
-      formData.append("startedDate", event?.startedIn);
+      formData.append("closeDate", event?.closeDate);
+      formData.append("eventDate", event?.eventDate);
       formData.append("description", event?.description);
+      formData.append("matches", JSON.stringify(event?.matches));
+      formData.append("fee", event?.fee);
+      formData.append("eventTime", event?.eventTime);
+      
       if (event?.image) {
         formData.append("image", event?.image?.fileList[0].originFileObj);
       }
-
       // await setEvent(formData);
-
       const response = await baseURL.post(`/events/add`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
-
 
       console.log(response?.data);
       if (response.data?.statusCode == 201) {
@@ -150,9 +158,10 @@ const AddEvent = () => {
           //   onFinishFailed={handleCompanyInformationFailed}
           autoComplete="off"
         >
-          <div className="flex-1">
+          
+          <div className="flex gap-5">
             <Form.Item
-              name="name"
+              name="eventName"
               label={
                 <span className="text-white text-[18px] ">Events Name</span>
               }
@@ -178,9 +187,6 @@ const AddEvent = () => {
               gap-4 inline-flex outline-none focus:border-none"
               />
             </Form.Item>
-          </div>
-
-          <div className="flex gap-5">
             <Form.Item
               name="location"
               label={<span className="text-white text-[18px] ">Location</span>}
@@ -206,56 +212,20 @@ const AddEvent = () => {
                 type="text"
               />
             </Form.Item>
-
-            <Form.Item
-              name="date"
-              label={
-                <span className="text-white text-[18px] ">
-                  Event Closing Date
-                </span>
-              }
-              className="flex-1"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Event Closing Date!",
-                },
-              ]}
-            >
-              {/* <ConfigProvider locale={globalBuddhistLocale}> */}
-              <DatePicker
-                // defaultValue={defaultValue}
-                className="p-4 bg-[#FFE7EA4F]
-            rounded w-full 
-            justify-start 
-            border-none
-            mt-[12px]
-            text-white
-            items-center 
-            gap-4 inline-flex outline-none focus:border-none"
-                onChange={onChangeClosingDate}
-              />
-              {/* </ConfigProvider> */}
-            </Form.Item>
           </div>
 
           <div className="flex gap-5">
             <Form.Item
-              name="startedIn"
-              label={
-                <span className="text-white text-[18px] ">Started In</span>
-              }
+              label={<span className="text-white text-[18px] ">Time</span>}
               className="flex-1"
               rules={[
                 {
                   required: true,
-                  message: "Please input Started In!",
+                  message: "Please input Start Time!",
                 },
               ]}
             >
-              {/* <ConfigProvider locale={globalBuddhistLocale}> */}
-              <DatePicker
-                // defaultValue={defaultValue}
+              <TimePicker
                 className="p-4 bg-[#FFE7EA4F]
             rounded w-full 
             justify-start 
@@ -264,14 +234,42 @@ const AddEvent = () => {
             text-white
             items-center 
             gap-4 inline-flex outline-none focus:border-none"
-                onChange={onChangeStartingDate}
+                // showTime
+                onChange={onChangeTime}
               />
-              {/* </ConfigProvider> */}
             </Form.Item>
 
             <Form.Item
+              name="fee"
+              label={<span className="text-white text-[18px] ">Entry Fee</span>}
+              className="flex-1"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Match Entry Fee!",
+                },
+              ]}
+            >
+              <Input
+                // onChange={(e) => setBlogName(e.target.value)}
+                placeholder="Rand 600"
+                className="p-4 bg-[#FFE7EA4F]
+            rounded w-full 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                type="text"
+              />
+            </Form.Item>
+          </div>
+
+          <div className="flex-1">
+            <Form.Item
               label={
-                <span className="text-[white]  text-[18px] ">
+                <span className="text-[white]  text-[18px]">
                   {" "}
                   Upload Image
                 </span>
@@ -301,6 +299,140 @@ const AddEvent = () => {
                 </Button>
               </Upload>
             </Form.Item>
+          </div>
+
+          <div className="flex gap-5">
+            <Form.Item
+              label={
+                <span className="text-white text-[18px] ">
+                  Registration Closing Date
+                </span>
+              }
+              className="flex-1"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Start Time!",
+                },
+              ]}
+            >
+              <DatePicker
+                className="p-4 bg-[#FFE7EA4F]
+            rounded w-full 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                // showTime
+                onChange={onChangeClosingDate}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="eventDate"
+              label={
+                <span className="text-white text-[18px] ">Date of Event</span>
+              }
+              className="flex-1"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Match Date!",
+                },
+              ]}
+            >
+              <DatePicker
+                className="p-4 bg-[#FFE7EA4F]
+            rounded w-full 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                onChange={onChangeEventDate}
+              />
+            </Form.Item>
+          </div>
+
+          <div className="mt-2">
+            <span className="text-white text-[18px]">Matches</span>
+            <Form.List
+              // label={<span className="text-white text-[18px] ">Matches</span>}
+              name="matches"
+              className="w-full"
+            >
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space key={key} className="flex gap-5" align="baseline">
+                      <Form.Item
+                        {...restField}
+                        name={[name, "matchName"]}
+                        className=""
+                        rules={[
+                          {
+                            required: true,
+                            message: "Missing Match Name",
+                          },
+                        ]}
+                      >
+                        <Input
+                          className="p-4 bg-[#FFE7EA4F]
+            rounded lg:w-[730px] 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                          placeholder="Match Name"
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, "description"]}
+                        className="flex-1"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Missing Match Description",
+                          },
+                        ]}
+                      >
+                        <Input
+                          className="p-4 bg-[#FFE7EA4F]
+            rounded lg:w-[730px]  
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                          placeholder="Match Description"
+                        />
+                      </Form.Item>
+
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                      className="block w-[500px] h-[56px] mt-[30px] px-2 py-4  text-white bg-gradient-to-r from-red-500 to-red-800 rounded-lg hover:bg-red-600"
+                    >
+                      Add Match
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </div>
 
           <div className="flex-1 mt-[16px]">

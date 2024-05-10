@@ -5,7 +5,9 @@ import {
   ConfigProvider,
   Space,
   Typography,
+  TimePicker,
 } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,17 +31,17 @@ const EditEvent = () => {
   const { id } = useParams();
   console.log(id);
   const { data, isSuccess, isError, isLoading } = useGetSingleEventQuery(id);
-  const [startDate, setStartDate] = useState(
-    data?.data?.attributes?.startedDate
-  );
-  const [closeDate, setCloseDate] = useState(
-    data?.data?.attributes?.closingDate
-  );
+  const [closeDate, setCloseDate] = useState(data?.data?.attributes?.closeDate);
+  const [eventDate, setEventDate] = useState("");
   const [img, setImg] = useState(
     `${import.meta.env.VITE_BASE_URL}${
       data?.data?.attributes?.image?.publicFileURL
     }`
   );
+  const [description, setDescription] = useState(
+    data?.data?.attributes?.description
+  );
+  const [eventTime, setEventTime] = useState("");
   useEffect(() => {
     setImg(
       `${import.meta.env.VITE_BASE_URL}${
@@ -49,11 +51,12 @@ const EditEvent = () => {
   }, [data?.data?.attributes?.image?.publicFileURL]);
 
   useEffect(() => {
-    setContent(data?.data?.attributes?.description);
-    setStartDate(data?.data?.attributes?.startedDate);
-    setCloseDate(data?.data?.attributes?.closingDate);
+    setDescription(data?.data?.attributes?.description);
+    setEventDate(data?.data?.attributes?.eventDate);
+    setCloseDate(data?.data?.attributes?.closeDate);
+    setEventTime(data?.data?.attributes?.eventTime);
   }, [data]);
-  const [content, setContent] = useState(data?.data?.attributes?.description);
+
   const [updateImage, setUpdateImage] = useState(null);
   // const [fileList, setFileList] = useState([]);
   const editor = useRef(null);
@@ -66,6 +69,15 @@ const EditEvent = () => {
     setPreviewImage(URL.createObjectURL(file));
   };
 
+  const onChangeEventDate = (_, dateStr) => {
+    console.log("onChange:", dateStr);
+    setEventDate(dateStr);
+  };
+  const onChangeTime = (_, dateStr) => {
+    console.log("onChange:", dateStr);
+    setEventTime(dateStr);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -74,19 +86,22 @@ const EditEvent = () => {
     try {
       const event = {
         ...values,
-        description: content,
-        date: closeDate,
-        startedIn: startDate,
-        image: updateImage,
+        description,
+        closeDate,
+        eventDate,
+        eventTime,
       };
       console.log(event);
       const formData = new FormData();
 
-      formData.append("name", event?.name);
+      formData.append("eventName", event?.eventName);
       formData.append("location", event?.location);
-      formData.append("closingDate", event?.date);
-      formData.append("startedDate", event?.startedIn);
+      formData.append("closeDate", event?.closeDate);
+      formData.append("eventDate", event?.eventDate);
       formData.append("description", event?.description);
+      formData.append("matches", JSON.stringify(event?.matches));
+      formData.append("fee", event?.fee);
+      formData.append("eventTime", event?.eventTime);
       if (updateImage) {
         formData.append("image", updateImage);
       }
@@ -97,7 +112,7 @@ const EditEvent = () => {
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-console.log(response);
+      console.log(response);
       if (response.data?.statusCode === 200) {
         Swal.fire({
           position: "top-center",
@@ -123,36 +138,12 @@ console.log(response);
     // console.log(formData);
   };
 
-  // const props = {
-  //   name: "file",
-  //   action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-  //   headers: {
-  //     authorization: "authorization-text",
-  //   },
-  //   onChange(info) {
-  //     if (info.file.status !== "uploading") {
-  //       console.log(info.file, info.fileList);
-  //     }
-  //     if (info.file.status === "done") {
-  //       message.success(`${info.file.name} file uploaded successfully`);
-  //     } else if (info.file.status === "error") {
-  //       message.success(`${info.file.name} file uploaded successfully.`);
-  //     }
-  //   },
-  // };
-
   const onChangeClosingDate = (_, dateStr) => {
     console.log("onChange:", dateStr);
     setCloseDate(dateStr);
   };
-  const onChangeStartingDate = (_, dateStr) => {
-    console.log("onChange:", dateStr);
-    setStartDate(dateStr);
-  };
 
   const Event = data?.data?.attributes;
-
-  console.log(Event?.startedDate);
   console.log(data);
   return (
     <div className="ml-[24px] overflow-auto">
@@ -170,26 +161,26 @@ console.log(response);
           wrapperCol={{ span: 40 }}
           layout="vertical"
           initialValues={{
-            name: Event?.name,
+            eventName: Event?.eventName,
             location: Event?.location,
             description: Event?.description,
-            closingDate: Event?.closingDate,
-            startedDate: Event?.startedDate,
+            fee: Event?.fee,
+            matches: Event?.matches,
           }}
           onFinish={handleEditEvents}
           autoComplete="off"
         >
-          <div className="flex-1">
+          <div className="flex gap-5">
             <Form.Item
-              name="name"
+              name="eventName"
               label={
-                <span className="text-white text-[18px]">Events Name</span>
+                <span className="text-white text-[18px] ">Events Name</span>
               }
               className="flex-1"
               rules={[
                 {
                   required: true,
-                  message: "Please input Events Name!",
+                  message: "Please input your Events Name!",
                 },
               ]}
             >
@@ -207,9 +198,6 @@ console.log(response);
               gap-4 inline-flex outline-none focus:border-none"
               />
             </Form.Item>
-          </div>
-
-          <div className="flex gap-5">
             <Form.Item
               name="location"
               label={<span className="text-white text-[18px] ">Location</span>}
@@ -228,65 +216,31 @@ console.log(response);
             rounded w-full 
             justify-start 
             border-none
-            mt-[32px]
-            text-white
-            items-center 
-            gap-4 inline-flex outline-none focus:border-none "
-                type="text"
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="date"
-              label={
-                <span className="text-white text-[18px] ">
-                  Event Closing Date
-                </span>
-              }
-              className="flex-1"
-              rules={[
-                {
-                  // required: true,
-                  message: "Please input your First Name!",
-                },
-              ]}
-            >
-              {/* <ConfigProvider locale={globalBuddhistLocale}> */}
-              <p className="text-white font-bold">{closeDate?.split("T")[0]}</p>
-              <DatePicker
-                // defaultValue={closeDate}
-                className="p-4 bg-[#FFE7EA4F]
-            rounded w-full 
-            justify-start 
-            border-none
             mt-[12px]
             text-white
             items-center 
             gap-4 inline-flex outline-none focus:border-none"
-                onChange={onChangeClosingDate}
+                type="text"
               />
-              {/* </ConfigProvider> */}
             </Form.Item>
           </div>
 
           <div className="flex gap-5">
             <Form.Item
-              name="startedIn"
               label={
-                <span className="text-white text-[18px] ">Started In</span>
+                <span className="text-white text-[18px] ">
+                  Time: {eventTime}{" "}
+                </span>
               }
               className="flex-1"
               rules={[
                 {
-                  // required: true,
-                  message: "Please input Started In!",
+                  required: false,
+                  message: "Please input Start Time!",
                 },
               ]}
             >
-              <p className="text-white font-bold">{startDate?.split("T")[0]}</p>
-              {/* <ConfigProvider locale={globalBuddhistLocale}> */}
-              <DatePicker
-                // defaultValue={startDate}
+              <TimePicker
                 className="p-4 bg-[#FFE7EA4F]
             rounded w-full 
             justify-start 
@@ -295,18 +249,44 @@ console.log(response);
             text-white
             items-center 
             gap-4 inline-flex outline-none focus:border-none"
-                onChange={onChangeStartingDate}
+                // showTime
+                onChange={onChangeTime}
               />
-              {/* </ConfigProvider> */}
             </Form.Item>
+
+            <Form.Item
+              name="fee"
+              label={<span className="text-white text-[18px] ">Entry Fee</span>}
+              className="flex-1"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Match Entry Fee!",
+                },
+              ]}
+            >
+              <Input
+                // onChange={(e) => setBlogName(e.target.value)}
+                placeholder="Rand 600"
+                className="p-4 bg-[#FFE7EA4F]
+            rounded w-full 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                type="text"
+              />
+            </Form.Item>
+          </div>
+
+          <div className="flex-1">
             {/* <img className="w-[10%] h-[10%] rounded-xl border-2 border-red-500" src={img} alt="" /> */}
 
             <Form.Item
               label={
-                <span className="text-[white] text-[18px] ">
-                  {" "}
-                  Upload Image
-                </span>
+                <span className="text-[white] text-[18px] "> Upload Image</span>
               }
               name="image"
               className="flex-1"
@@ -357,6 +337,142 @@ console.log(response);
             </Form.Item>
           </div>
 
+          <div className="flex gap-5">
+            <Form.Item
+              label={
+                <span className="text-white text-[18px] ">
+                  Registration Closing Date: {closeDate?.split("T")[0]}
+                </span>
+              }
+              className="flex-1"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Start Time!",
+                },
+              ]}
+            >
+              <DatePicker
+                className="p-4 bg-[#FFE7EA4F]
+            rounded w-full 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                // showTime
+                onChange={onChangeClosingDate}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="eventDate"
+              label={
+                <span className="text-white text-[18px] ">
+                  Date of Event: {eventDate?.split("T")[0]}
+                </span>
+              }
+              className="flex-1"
+              rules={[
+                {
+                  required: false,
+                  message: "Please input Match Date!",
+                },
+              ]}
+            >
+              <DatePicker
+                className="p-4 bg-[#FFE7EA4F]
+            rounded w-full 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                onChange={onChangeEventDate}
+              />
+            </Form.Item>
+          </div>
+
+          <div className="mt-2">
+            <span className="text-white text-[18px]">Matches</span>
+            <Form.List
+              // label={<span className="text-white text-[18px] ">Matches</span>}
+              name="matches"
+              className="w-full"
+            >
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space key={key} className="flex gap-5" align="baseline">
+                      <Form.Item
+                        {...restField}
+                        name={[name, "matchName"]}
+                        className=""
+                        rules={[
+                          {
+                            required: true,
+                            message: "Missing Match Name",
+                          },
+                        ]}
+                      >
+                        <Input
+                          className="p-4 bg-[#FFE7EA4F]
+            rounded lg:w-[730px] 
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                          placeholder="Match Name"
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, "description"]}
+                        className="flex-1"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Missing Match Description",
+                          },
+                        ]}
+                      >
+                        <Input
+                          className="p-4 bg-[#FFE7EA4F]
+            rounded lg:w-[730px]  
+            justify-start 
+            border-none
+            mt-[12px]
+            text-white
+            items-center 
+            gap-4 inline-flex outline-none focus:border-none"
+                          placeholder="Match Description"
+                        />
+                      </Form.Item>
+
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                      className="block w-[500px] h-[56px] mt-[30px] px-2 py-4  text-white bg-gradient-to-r from-red-500 to-red-800 rounded-lg hover:bg-red-600"
+                    >
+                      Edit Match
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+          </div>
+
           <div className="flex-1 mt-[16px]">
             <label htmlFor="" className="text-white text-[18px] font-medium">
               Description
@@ -364,9 +480,9 @@ console.log(response);
             <div className="mt-[16px]">
               <JoditEditor
                 ref={editor}
-                value={content}
+                value={description}
                 onChange={(newContent) => {
-                  setContent(newContent);
+                  setDescription(newContent);
                 }}
                 style={{ backgroundColor: "#FFE7EA4F", width: "100%" }}
               />
