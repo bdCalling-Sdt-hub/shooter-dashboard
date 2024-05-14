@@ -30,7 +30,7 @@ const DashboardHome = () => {
             <BarChartIncomeRatio/>
             <DashboardUserList/>
             <DashboardEventsList/>
-            <DashboardMatchesList/>
+            {/* <DashboardMatchesList/> */}
         </div>
     );
 }

@@ -104,6 +104,7 @@ const AddEvent = () => {
         formData.append("image", event?.image?.fileList[0].originFileObj);
       }
       // await setEvent(formData);
+      console.log(formData);
       const response = await baseURL.post(`/events/add`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -147,7 +148,6 @@ const AddEvent = () => {
       </div>
       <div>
         <Form
-          name="basic"
           labelCol={{ span: 22 }}
           wrapperCol={{ span: 40 }}
           layout="vertical"

@@ -26,15 +26,15 @@ function convertTo12HourFormat(time24) {
 const MatchesCart = ({ match }) => {
   const [toggle, setToggle] = useState(true);
   const navigate = useNavigate();
-  const { _id, matchName, gender, matchDate, time, prone, fee, event, image } = match;
+  const { _id, matchName, description,eventDetails, registrationStatus } = match;
 
   useEffect(() => {
-    if (matchDate) {
+    if (eventDetails?.eventDate) {
       const today = new Date().toISOString().split("T")[0];
       console.log(today);
-      setToggle(today >= matchDate.split("T")[0] ? false : true);
+      setToggle(today >= eventDetails?.eventDate.split("T")[0] ? false : true);
     }
-  }, [matchDate]);
+  }, [eventDetails?.eventDate]);
   const handleDelete = async (id) => {
     try {
       const result = await Swal.fire({
@@ -81,49 +81,36 @@ console.log(toggle);
         <div className="w-[340px] relative flex justify-center">
           <img
             className="rounded-lg "
-            src={`${import.meta.env.VITE_BASE_URL}${image?.publicFileURL}`}
+            src={`${import.meta.env.VITE_BASE_URL}${eventDetails?.image?.publicFileURL}`}
             alt=""
           />
           <span
             className="bg-[#fdf7f8] px-2 py-1 absolute top-2 left-2 text-[#FA1131] rounded-md font-bold
             "
           >
-            {matchDate?.split("T")[0]}
+            {eventDetails?.eventDate.split("T")[0]}
           </span>
         </div>
-        <h1 className="text-[18px] mt-4"> Event Name : {event}</h1>
+        <h1 className="text-[18px] mt-4"> Event Name : {eventDetails?.eventName}</h1>
         <div className="text-black flex justify-between items-center my-[12px]">
           <h1 className="text-[18px]">{matchName}</h1>
           <div className="flex gap-2">
             <FaRegClock />
-            <p className="text-[12px]">{convertTo12HourFormat(time)}</p>
+            <p className="text-[12px]">{convertTo12HourFormat(eventDetails?.eventTime)}</p>
           </div>
         </div>
         <div className="text-black ">
-          <p className="text-[12px] font-bold mb-[8px]">
+          {/* <p className="text-[12px] font-bold mb-[8px]">
             {gender === "Both" ? "Male/Female" : gender} : 3x20 Shots
-          </p>
-          <p className="text-[12px] font-bold  mb-[8px]">{prone}</p>
+          </p> */}
+          {/* <p className="text-[12px] font-bold  mb-[8px]">{prone}</p> */}
           {/* <p className="text-[10px] font-normal  mb-[8px]">Prone,standing & kneeling </p> */}
-          <div className="flex justify-between items-center  mb-[8px]">
+          {/* <div className="flex justify-between items-center  mb-[8px]">
             <p className="text-[12px] font-bold">Registration fee : </p>
             <p className="text-[12px] font-bold">R {fee} Per Entry</p>
-          </div>
+          </div> */}
         </div>
-        <div className="flex justify-between mt-[24px]">
-          <p
-            onClick={() => handleDelete(_id)}
-            className="flex justify-center w-[160px] cursor-pointer text-[#FA1131] py-[8px] bg-[#ffe5e8] border-2 border-[#FA1131] rounded-md"
-          >
-            Delete
-          </p>
-          <Link
-            to={`/matches/edit-matches/${_id}`}
-            className="flex justify-center w-[160px] cursor-pointer text-white py-[8px] bg-[#FA1131] rounded-md"
-          >
-            Edit
-          </Link>
-        </div>
+        
         <div>
           {/* <Link
             to={`/matches/upload-score/${_id}`}

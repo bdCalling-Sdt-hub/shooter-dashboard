@@ -156,6 +156,14 @@ const EventCart = ({ event }) => {
             Edit
           </Link>
         </div>
+        <div className=" mt-[24px] text-center bg-[#FA1131] py-[8px] rounded-md text-white">
+          <Link
+            to={`/match/${_id}`}
+            className=" cursor-pointer "
+          >
+            Match
+          </Link>
+        </div>
       </div>
     </div>
   );

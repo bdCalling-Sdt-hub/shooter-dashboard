@@ -72,7 +72,7 @@ const router = createBrowserRouter([
           element: <EditEvent/>,
         },
         {
-          path: "/matches",
+          path: "/match/:id",
           element: <Matches/>,
         },
         {

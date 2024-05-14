@@ -1,7 +1,7 @@
 import { Pagination } from "antd";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MatchesCart from "../../../Components/MatchesCart";
 
 import Loading from "../../../Components/Loading";
@@ -11,8 +11,10 @@ import { useGetAllMatchQuery } from "../../../redux/Features/getAllMatchApi";
 
 const Matches = () => {
     const navigate = useNavigate();
+    const {id} = useParams();
+    console.log(id);
     const [currentPage, setCurrentPage] = useState(1);
-    const {data:AllMatch,isSuccess,isLoading} = useGetAllMatchQuery(currentPage);
+    const {data:AllMatch,isSuccess,isLoading} = useGetAllMatchQuery({currentPage,id});
 
     const onChange = (values) => {
       console.log(values);
@@ -21,7 +23,7 @@ const Matches = () => {
     if(isLoading){
       return <Loading/>  
     }
-    console.log("alllllll",AllMatch);
+    console.log("alllllll",AllMatch?.data?.attributes);
     return (
         <div className="ml-[24px]">
       <div className="flex justify-between items-center">
@@ -57,7 +59,7 @@ const Matches = () => {
       </div>
            
 
-      <div className="flex justify-center my-10">
+      {/* <div className="flex justify-center my-10">
         <Pagination
           onChange={onChange}
           defaultCurrent={1}
@@ -66,7 +68,7 @@ const Matches = () => {
             // total={totalMembershipCart}
             total={AllMatch?.pagination?.totalMatches}
         />
-      </div>
+      </div> */}
     </div>
     );
 }
