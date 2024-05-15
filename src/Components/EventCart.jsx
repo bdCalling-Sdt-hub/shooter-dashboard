@@ -3,6 +3,23 @@ import eventImg from "../assets/eventImg2.png";
 import { CiLocationOn } from "react-icons/ci";
 import baseURL from "../config";
 import Swal from "sweetalert2";
+import { FaRegClock } from "react-icons/fa";
+
+function convertTo12HourFormat(time24) {
+  // Split the time string into hours, minutes, and seconds
+  const [hours, minutes, seconds] = time24.split(":").map(Number);
+
+  // Determine whether it's AM or PM
+  const period = hours < 12 ? "AM" : "PM";
+
+  // Convert hours to 12-hour format
+  const hours12 = hours % 12 || 12;
+
+  // Format the time in 12-hour format
+  const time12 = `${hours12}:${minutes < 10 ? "0" : ""}${minutes} ${period}`;
+
+  return time12;
+}
 
 const EventCart = ({ event }) => {
   // eslint-disable-next-line react/prop-types, no-unused-vars
@@ -108,23 +125,32 @@ const EventCart = ({ event }) => {
           <div className="text-white flex justify-between mt-[12px]">
             <div>
               <h1 className="text-[28px]">{eventName}</h1>
-              <p className="text-[10px] mt-2">Event Date:</p>
-              <p className="text-[12px]">{eventDate?.split("T")[0]}</p>
+              <p className="text-[15px] mt-2">Registration Close Date:</p>
+              <p className="text-[15px]">{closeDate?.split("T")[0]}</p>
+              <p className="text-[15px] mt-2">Event Date:</p>
+              <p className="text-[15px]">{eventDate?.split("T")[0]}</p>
             </div>
             <div className="mt-[12px]">
               <div className="text-white flex items-center gap-1 my-2">
-                <CiLocationOn />
-                <p className="text-[12px]">{location}</p>
+                <CiLocationOn  size={15} />
+                <p className="text-[15px]">{location}</p>
               </div>
-              <p className="text-[10px]">Started In:</p>
-              <p className="text-[12px]">{formattedDuration}</p>
-              <p className="text-[10px] mt-2">Registration Closing Date:</p>
-              <p className="text-[12px]">{closeDate?.split("T")[0]}</p>
-            </div>
+              <p className="text-[15px]">Started In:</p>
+              <p className="text-[15px]">{formattedDuration}</p>
+              <div className="flex gap-2 mt-3">
+            <FaRegClock />
+            <p className="text-[12px]">{convertTo12HourFormat(eventTime)}</p>
           </div>
+            </div>
+           
+          </div>
+          <div className="text-white mt-[12px]">
+              <p className="text-[20px]">Fee : {fee}</p>
+            </div>
+           
         </div>
-<p className="text-[22px] text-white">Matches</p>
-        <div className="grid grid-cols-2">
+{/* <p className="text-[22px] text-white">Matches</p> */}
+        {/* <div className="grid grid-cols-2">
          
           {
             // eslint-disable-next-line react/prop-types
@@ -141,7 +167,7 @@ const EventCart = ({ event }) => {
               </div>
             ))
           }
-        </div>
+        </div> */}
         <div className="flex justify-between mt-[24px]">
           <p
             onClick={() => handleDelete(_id)}
@@ -151,15 +177,16 @@ const EventCart = ({ event }) => {
           </p>
           <Link
             to={`/events/edit-event/${_id}`}
-            className="flex justify-center w-[160px] cursor-pointer text-white py-[8px] bg-[#FA1131] rounded-md"
+            className="flex justify-center w-[160px] cursor-pointer border-2 border-[#FFE5E8] text-white py-[8px] bg-[#FA1131] rounded-md"
           >
             Edit
           </Link>
         </div>
-        <div className=" mt-[24px] text-center bg-[#FA1131] py-[8px] rounded-md text-white">
+        <Link className='py-2 px-3 my-2 b border-2 border-[#FFE5E8] bg-[#FA1131] text-white rounded-md w-full block text-center' to={`/events-register-list/${_id}`}>User Register List </Link>
+        <div className=" mt-[2px] text-center bg-[#FA1131] py-[8px] rounded-md text-white border-2 border-[#FFE5E8]  ">
           <Link
             to={`/match/${_id}`}
-            className=" cursor-pointer "
+            className=" cursor-pointer"
           >
             Match
           </Link>

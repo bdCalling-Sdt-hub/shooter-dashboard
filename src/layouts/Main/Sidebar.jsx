@@ -70,21 +70,7 @@ const Sidebar = () => {
               </div>
             </NavLink>
 
-            <NavLink
-              to="/matches-register"
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? "flex text-[white] gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px] bg-[#281F1F] m-[16px] rounded-lg"
-                  : isActive
-                  ? "flex text-white gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px] bg-[#FA1131]  m-[16px] rounded-lg"
-                  : "flex text-[white] gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px]  m-[16px] rounded-lg"
-              }
-            >
-              <div className="flex justify-start items-center gap-2">
-                <BsCalendar2 width={25} height={25} />
-                Match Register
-              </div>
-            </NavLink>
+           
 
             <NavLink
               to="/events"
@@ -102,7 +88,23 @@ const Sidebar = () => {
               </div>
             </NavLink>
 
-            <NavLink
+            {/* <NavLink
+              to="/events-register-list"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "flex text-[white] gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px] bg-[#281F1F] m-[16px] rounded-lg"
+                  : isActive
+                  ? "flex text-white gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px] bg-[#FA1131]  m-[16px] rounded-lg"
+                  : "flex text-[white] gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px]  m-[16px] rounded-lg"
+              }
+            >
+              <div className="flex justify-start items-center gap-2">
+                <BsCalendar2 width={25} height={25} />
+                Event Register List
+              </div>
+            </NavLink> */}
+
+            {/* <NavLink
               to="/matches"
               className={({ isActive, isPending }) =>
                 isPending
@@ -116,7 +118,7 @@ const Sidebar = () => {
                 <TbTargetArrow width={25} height={25} />
                 Matches
               </div>
-            </NavLink>
+            </NavLink> */}
 
             <NavLink
               to="/settings"
@@ -129,7 +131,7 @@ const Sidebar = () => {
               }
             >
               <div className="flex justify-start items-center gap-2">
-                <CiSettings width={25} height={25} /> <span className="flex-1"> Setting</span>
+                <CiSettings width={25} height={25} /> <span className="flex-1"> Settings</span>
               </div>
             </NavLink>
           </ul>

@@ -23,7 +23,7 @@ function convertTo12HourFormat(time24) {
 }
 
 // eslint-disable-next-line react/prop-types
-const MatchesCart = ({ match }) => {
+const MatchesCart = ({ match,index }) => {
   const [toggle, setToggle] = useState(true);
   const navigate = useNavigate();
   const { _id, matchName, description,eventDetails, registrationStatus } = match;
@@ -35,44 +35,7 @@ const MatchesCart = ({ match }) => {
       setToggle(today >= eventDetails?.eventDate.split("T")[0] ? false : true);
     }
   }, [eventDetails?.eventDate]);
-  const handleDelete = async (id) => {
-    try {
-      const result = await Swal.fire({
-        title: "Do you want to delete this event?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Yes",
-        denyButtonText: "No",
-      });
-
-      if (result.isConfirmed) {
-        const response = await baseURL.delete(`/match/delete/${id}`, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        console.log(response);
-        if (response?.data?.statusCode == 200) {
-          // Swal.fire({
-          //   position: 'top-center',
-          //   icon: 'success',
-          //   title: response.data.message,
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1);
-        }
-      } else if (result.isDenied) {
-        Swal.fire("Cancelled", "", "info");
-      }
-    } catch (error) {
-      console.error("Error deleting event:", error);
-      Swal.fire("Error", "Failed to delete event", "error");
-    }
-  };
+  
   
 console.log(toggle);
   return (
@@ -91,33 +54,26 @@ console.log(toggle);
             {eventDetails?.eventDate.split("T")[0]}
           </span>
         </div>
+        <h1 className="text-[18px] mt-4"> {`Match ${index + 1}`}</h1>
         <h1 className="text-[18px] mt-4"> Event Name : {eventDetails?.eventName}</h1>
         <div className="text-black flex justify-between items-center my-[12px]">
-          <h1 className="text-[18px]">{matchName}</h1>
-          <div className="flex gap-2">
+          <h1 className="text-[18px]">Match Name : {matchName}</h1>
+          {/* <div className="flex gap-2">
             <FaRegClock />
             <p className="text-[12px]">{convertTo12HourFormat(eventDetails?.eventTime)}</p>
-          </div>
+          </div> */}
         </div>
         <div className="text-black ">
-          {/* <p className="text-[12px] font-bold mb-[8px]">
-            {gender === "Both" ? "Male/Female" : gender} : 3x20 Shots
-          </p> */}
-          {/* <p className="text-[12px] font-bold  mb-[8px]">{prone}</p> */}
-          {/* <p className="text-[10px] font-normal  mb-[8px]">Prone,standing & kneeling </p> */}
-          {/* <div className="flex justify-between items-center  mb-[8px]">
-            <p className="text-[12px] font-bold">Registration fee : </p>
-            <p className="text-[12px] font-bold">R {fee} Per Entry</p>
-          </div> */}
+          <div>
+            
+            <p className="text-[20px] font-normal mb-[8px]">
+              Description : {description}
+            </p>
+          </div>
         </div>
         
         <div>
-          {/* <Link
-            to={`/matches/upload-score/${_id}`}
-            className="flex mt-3 justify-center cursor-pointer text-white py-[8px] bg-[#281F1F] rounded-md"
-          >
-            Upload Score
-          </Link> */}
+          
           {
             !toggle &&  <button disabled={toggle} onClick={()=>navigate(`/matches/upload-score/${_id}`)}  className="flex mt-3 justify-center w-full cursor-pointer text-white py-[8px] bg-[#281F1F] rounded-md"> Upload Score</button>
           }

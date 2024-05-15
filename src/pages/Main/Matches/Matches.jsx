@@ -28,7 +28,7 @@ const Matches = () => {
         <div className="ml-[24px]">
       <div className="flex justify-between items-center">
         <p className="text-white text-[24px]">Matches</p>
-        <div
+        {/* <div
           onClick={(e) => navigate("/matches/add-matches")}
           className="flex gap-2 items-center py-[15px]
                  px-[40px]
@@ -40,14 +40,14 @@ const Matches = () => {
         >
           <FaPlus size={17} />
           <p>Add Match</p>
-        </div>
+        </div> */}
       </div>
 
       <div className="grid lg:grid-cols-4 gap-3 my-7">
       
         {
           AllMatch?.data?.attributes?.map((match,index)=>(
-            <MatchesCart key={index} match={match}/>
+            <MatchesCart key={index} match={match} index={index}/>
             
           ))
         }

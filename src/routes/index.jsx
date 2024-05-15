@@ -26,6 +26,8 @@ import EditProfileInformation from "../pages/Main/EditProfileInformation/EditPro
 import Notification from "../pages/Main/Notification/Notification";
 import AdminRoutes from "./AdminRoute";
 import UploadScore from "../pages/Main/UploadScore/UploadScore";
+import EventREgisterList from "../pages/Main/EventRegisterList/EventREgisterList";
+import EventRegisterListDetails from "../pages/Main/EventRegisterListDetails/EventRegisterListDetails";
 
 
 
@@ -58,6 +60,14 @@ const router = createBrowserRouter([
         {
           path: "/matches-register",
           element: <EventsRegister/>,
+        },
+        {
+          path: "/events-register-list",
+          element: <EventREgisterList/>,
+        },
+        {
+          path: "/events-register-list/:id",
+          element: <EventRegisterListDetails/>,
         },
         {
           path: "/events",

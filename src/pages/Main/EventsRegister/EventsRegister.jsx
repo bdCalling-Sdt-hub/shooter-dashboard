@@ -229,7 +229,7 @@ const EventsRegister = () => {
         </div>
       </div>
       </Modal>
-    </div>
+        </div>
     );
 }
 
