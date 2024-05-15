@@ -88,8 +88,8 @@ const Sidebar = () => {
               </div>
             </NavLink>
 
-            {/* <NavLink
-              to="/events-register-list"
+            <NavLink
+              to="/subscription"
               className={({ isActive, isPending }) =>
                 isPending
                   ? "flex text-[white] gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px] bg-[#281F1F] m-[16px] rounded-lg"
@@ -100,9 +100,9 @@ const Sidebar = () => {
             >
               <div className="flex justify-start items-center gap-2">
                 <BsCalendar2 width={25} height={25} />
-                Event Register List
+                Subscription
               </div>
-            </NavLink> */}
+            </NavLink>
 
             {/* <NavLink
               to="/matches"

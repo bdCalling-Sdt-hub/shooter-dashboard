@@ -28,6 +28,7 @@ import AdminRoutes from "./AdminRoute";
 import UploadScore from "../pages/Main/UploadScore/UploadScore";
 import EventREgisterList from "../pages/Main/EventRegisterList/EventREgisterList";
 import EventRegisterListDetails from "../pages/Main/EventRegisterListDetails/EventRegisterListDetails";
+import Subscription from "../pages/Main/Subscription/Subscription";
 
 
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
         {
           path: "/events-register-list/:id",
           element: <EventRegisterListDetails/>,
+        },
+        {
+          path: "/subsCription",
+          element: <Subscription/>,
         },
         {
           path: "/events",
