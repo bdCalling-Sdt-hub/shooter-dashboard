@@ -28,16 +28,18 @@ const UploadScore = () => {
         ...values,
         scoreFile: selectedFile,
       };
+      console.log(result);
       const formData = new FormData();
 
-      formData.append("match", result?.match);
-      formData.append("event", result?.event);
+      formData.append("matchName", result?.matchName);
+      formData.append("eventName", result?.eventName);
 
       if (selectedFile) {
         formData.append("scoreFile", result?.scoreFile);
       }
 
-      const response = await baseURL.post(`/match/score-upload`, formData, {
+      console.log(result);
+      const response = await baseURL.post(`/events/score-upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -56,7 +58,7 @@ const UploadScore = () => {
         setTimeout(() => {
           window.location.reload();
         }, 1600);
-        navigate("/matches");
+        navigate("/events");
       }
     } catch (error) {
       Swal.fire({
@@ -72,7 +74,7 @@ const UploadScore = () => {
     <div className="ml-[24px] overflow-auto">
       <div className="mt-[44px] cursor-pointer text-white flex items-center pb-3 gap-2">
         <MdOutlineKeyboardArrowLeft
-          onClick={() => navigate("/matches")}
+          onClick={() => navigate(`/match/${data?.data?.attributes?.eventDetails?._id}`)}
           size={34}
         />
         <h1 className="text-[24px] text-primary font-semibold">
@@ -87,8 +89,8 @@ const UploadScore = () => {
           layout="vertical"
           initialValues={{
             remember: true,
-            match: result?.matchName,
-            event: result?.event,
+            matchName: result?.matchName,
+            eventName: result?.eventDetails?.eventName,
           }}
           onFinish={handleUploadScore}
           //   onFinishFailed={handleCompanyInformationFailed}
@@ -96,7 +98,7 @@ const UploadScore = () => {
         >
           <div className="flex gap-5">
             <Form.Item
-              name="match"
+              name="matchName"
               label={
                 <span className="text-white text-[18px] ">Match Name</span>
               }
@@ -124,7 +126,7 @@ const UploadScore = () => {
             </Form.Item>
 
             <Form.Item
-              name="event"
+              name="eventName"
               label={
                 <span className="text-white text-[18px] ">Event Name</span>
               }

@@ -29,6 +29,8 @@ import UploadScore from "../pages/Main/UploadScore/UploadScore";
 import EventREgisterList from "../pages/Main/EventRegisterList/EventREgisterList";
 import EventRegisterListDetails from "../pages/Main/EventRegisterListDetails/EventRegisterListDetails";
 import Subscription from "../pages/Main/Subscription/Subscription";
+import AddSubscription from "../pages/Main/AddSubscription/AddSubscription";
+import EditSubscription from "../pages/Main/EditSubscription/EditSubscription";
 
 
 
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
         {
           path: "/subsCription",
           element: <Subscription/>,
+        },
+        {
+          path: "/add-subsCription",
+          element: <AddSubscription/>,
+        },
+        {
+          path: "/edit-subsCription/:id",
+          element: <EditSubscription/>,
         },
         {
           path: "/events",
