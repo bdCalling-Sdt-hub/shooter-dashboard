@@ -31,6 +31,10 @@ import EventRegisterListDetails from "../pages/Main/EventRegisterListDetails/Eve
 import Subscription from "../pages/Main/Subscription/Subscription";
 import AddSubscription from "../pages/Main/AddSubscription/AddSubscription";
 import EditSubscription from "../pages/Main/EditSubscription/EditSubscription";
+import Library from "../pages/Main/Library/Library";
+import AllPhotos from "../pages/Main/Library/AllPhotos";
+import AllDocuments from "../pages/Main/Library/AllDocuments";
+import AddPhotos from "../pages/Main/Library/AddPhotos";
 
 
 
@@ -139,6 +143,22 @@ const router = createBrowserRouter([
         {
           path: "/settings/edit-about-us",
           element: <EditAboutUs/>,
+        },
+        {
+          path: "/library",
+          element: <Library/>,
+        },
+        {
+          path: "/library/photos",
+          element: <AllPhotos/>,
+        },
+        {
+          path: "/library/add-photos",
+          element: <AddPhotos/>,
+        },
+        {
+          path: "/library/documents",
+          element: <AllDocuments/>,
         },
        
         // {

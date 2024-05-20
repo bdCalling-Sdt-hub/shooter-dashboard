@@ -150,7 +150,7 @@ const ProfileInformation = () => {
           </div>
         </div>
       </div>
-    </div>
+        </div>
     );
 }
 

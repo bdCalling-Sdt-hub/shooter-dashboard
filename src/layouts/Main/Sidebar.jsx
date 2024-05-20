@@ -8,6 +8,7 @@ import { CiSettings } from "react-icons/ci";
 import { HiLogout } from "react-icons/hi";
 import { TbTargetArrow } from "react-icons/tb";
 import { FaCalendarDays } from "react-icons/fa6";
+import { MdDocumentScanner } from "react-icons/md";
 import Swal from "sweetalert2";
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -104,8 +105,8 @@ const Sidebar = () => {
               </div>
             </NavLink>
 
-            {/* <NavLink
-              to="/matches"
+            <NavLink
+              to="/library"
               className={({ isActive, isPending }) =>
                 isPending
                   ? "flex text-[white] gap-2 cursor-pointer items-center text-[18px] font-medium p-[20px] bg-[#281F1F] m-[16px] rounded-lg"
@@ -115,10 +116,10 @@ const Sidebar = () => {
               }
             >
               <div className="flex justify-start items-center gap-2">
-                <TbTargetArrow width={25} height={25} />
-                Matches
+                <MdDocumentScanner width={25} height={25} />
+                Library
               </div>
-            </NavLink> */}
+            </NavLink>
 
             <NavLink
               to="/settings"
