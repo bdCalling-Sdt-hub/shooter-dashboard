@@ -182,10 +182,10 @@ const EventCart = ({ event }) => {
             Edit
           </Link>
         </div>
-        <Link className='py-2 px-3 my-2 b border-2 border-[#FFE5E8] bg-[#FA1131] text-white rounded-md w-full block text-center' to={`/events-register-list/${_id}`}>User Register List </Link>
+        <Link className='py-2 px-3 my-2 b border-2 border-[#FFE5E8] bg-[#FA1131] text-white rounded-md w-full block text-center' to={`/events/events-register-list/${_id}`}>User Register List </Link>
         <div className=" mt-[2px] text-center bg-[#FA1131] py-[8px] rounded-md text-white border-2 border-[#FFE5E8]  ">
           <Link
-            to={`/match/${_id}`}
+            to={`/events/match/${_id}`}
             className=" cursor-pointer"
           >
             Match
@@ -197,3 +197,5 @@ const EventCart = ({ event }) => {
 };
 
 export default EventCart;
+
+

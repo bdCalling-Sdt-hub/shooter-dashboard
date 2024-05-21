@@ -35,6 +35,7 @@ import Library from "../pages/Main/Library/Library";
 import AllPhotos from "../pages/Main/Library/AllPhotos";
 import AllDocuments from "../pages/Main/Library/AllDocuments";
 import AddPhotos from "../pages/Main/Library/AddPhotos";
+import AddDocument from "../pages/Main/Library/AddDocument";
 
 
 
@@ -73,7 +74,7 @@ const router = createBrowserRouter([
           element: <EventREgisterList/>,
         },
         {
-          path: "/events-register-list/:id",
+          path: "/events/events-register-list/:id",
           element: <EventRegisterListDetails/>,
         },
         {
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
           element: <EditEvent/>,
         },
         {
-          path: "/match/:id",
+          path: "/events/match/:id",
           element: <Matches/>,
         },
         {
@@ -159,6 +160,10 @@ const router = createBrowserRouter([
         {
           path: "/library/documents",
           element: <AllDocuments/>,
+        },
+        {
+          path: "/library/add-documents",
+          element: <AddDocument/>,
         },
        
         // {

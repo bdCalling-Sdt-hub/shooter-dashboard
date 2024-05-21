@@ -1,11 +1,11 @@
 import { baseApi } from "../api/baseApi";
 
-const getAboutUsApi = baseApi.injectEndpoints({
+const getAllDocuments = baseApi.injectEndpoints({
     endpoints:(builder)=>({
-        getAboutUs:builder.query({
-            query:()=>`/setting/about-us`,
+        getAllDocuments:builder.query({
+            query:()=>`/library/documents`,
         })
     })
 })
 
-export const {useGetAboutUsQuery} = getAboutUsApi;
+export const {useGetAllDocumentsQuery} = getAllDocuments;

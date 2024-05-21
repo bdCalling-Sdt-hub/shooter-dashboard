@@ -358,3 +358,8 @@ body {
 .item-control-input-content {
   width: 200% !important;
 }
+
+.ant-table-cell-row-hover{
+  background-color: #281F1F !important;
+  color: #FA1131 !important ;
+}

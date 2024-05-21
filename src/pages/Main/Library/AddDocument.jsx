@@ -1,11 +1,11 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form } from 'antd';
 import React, { useState } from 'react';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import baseURL from '../../../config';
 import Swal from 'sweetalert2';
 
-const AddPhotos = () => {
+const AddDocument = () => {
     const navigate = useNavigate();
     const [updateImage, setUpdateImage] = useState(null);
  
@@ -21,15 +21,16 @@ const AddPhotos = () => {
       const handleAddPhotos = async () => {
         const formData = new FormData();
         if (updateImage) {
-            formData.append("image", updateImage);
+            formData.append("document", updateImage);
           }
-          const response = await baseURL.post(`/library/photos`, formData, {
+          const response = await baseURL.post(`/library/documents`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
               authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
           console.log(response);
+          console.log(response.data?.statusCode);
           if (response.data?.statusCode === 200) {
             Swal.fire({
               position: "top-center",
@@ -41,7 +42,7 @@ const AddPhotos = () => {
             setTimeout(() => {
               window.location.reload();
             }, 1600);
-            navigate("/library/photos");
+            navigate("/library/documents");
           }
       }
       console.log(previewImage);
@@ -49,12 +50,12 @@ const AddPhotos = () => {
         <div className="ml-[24px] overflow-auto">
         <div className="mt-[44px] cursor-pointer text-white flex items-center pb-3 gap-2">
           <MdOutlineKeyboardArrowLeft
-            onClick={() => navigate("/library/photos")}
+            onClick={() => navigate("/library/documents")}
            
             size={34}
           />
           <h1 className="text-[24px] text-primary font-semibold">
-            Add Photos
+            Add Documents
           </h1>
         </div>
         <div>
@@ -77,7 +78,7 @@ const AddPhotos = () => {
               name="name"
               label={
                 <span className="text-white text-[18px] ">
-                  Photo
+                  Documents
                 </span>
               }
               className="flex-1"
@@ -90,7 +91,6 @@ const AddPhotos = () => {
             >
               <input
                   type="file"
-                  accept="image/*"
                   // Only allows image files
                   className="p-4 bg-[#FFE7EA4F]
               rounded w-full 
@@ -126,7 +126,7 @@ const AddPhotos = () => {
                 height: "56px",
               }}
             >
-              Add Photos
+              Add Documents
             </Button>
           </Form>
         </div>
@@ -134,4 +134,4 @@ const AddPhotos = () => {
     );
 }
 
-export default AddPhotos;
+export default AddDocument;
