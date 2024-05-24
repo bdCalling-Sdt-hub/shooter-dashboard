@@ -155,7 +155,7 @@ body {
 
 
 .ant-input::placeholder {
-  color: rgba(255, 255, 255, 0.603) !important
+  color: #BEBBBB !important
 }
 
 
@@ -222,7 +222,8 @@ body {
 }
 
 .ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
-  background-color: #FFE7EA4F;
+  background: linear-gradient(to right, #ef4444, #991b1b);
+  
 }
 
 .ant-input-outlined.ant-input-status-error:not(.ant-input-disabled):hover {

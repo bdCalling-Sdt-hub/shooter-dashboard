@@ -177,7 +177,7 @@ console.log(usersAll);
           <div className="flex justify-between border-b py-[16px]">
             <p>Class:</p>
             <p>
-              {user?.class ? user?.class : "N/A"}
+              {user?.userClass ? user?.userClass : "N/A"}
             </p>
           </div>
           <div className="flex justify-between items-center pt-[16px]">

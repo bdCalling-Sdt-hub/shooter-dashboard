@@ -74,7 +74,7 @@ const UploadScore = () => {
     <div className="ml-[24px] overflow-auto">
       <div className="mt-[44px] cursor-pointer text-white flex items-center pb-3 gap-2">
         <MdOutlineKeyboardArrowLeft
-          onClick={() => navigate(`/match/${data?.data?.attributes?.eventDetails?._id}`)}
+          onClick={() => navigate(`/events/match/${data?.data?.attributes?.eventDetails?._id}`)}
           size={34}
         />
         <h1 className="text-[24px] text-primary font-semibold">

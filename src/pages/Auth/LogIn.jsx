@@ -93,7 +93,7 @@ const LogIn = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please Input Your Email!",
+                    message: "Please input your email!",
                   },
                 ]}
               >
@@ -103,7 +103,7 @@ const LogIn = () => {
                   name="email"
                   prefix={
                     <HiOutlineMailOpen
-                      className="mr-2 bg-white rounded-full p-[6px]"
+                      className="mr-2 bg-white text-black rounded-full p-[6px]"
                       size={28}
                       color="red"
                     />
@@ -130,7 +130,7 @@ const LogIn = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please Input Your Password!",
+                    message: "Please input your password!",
                   },
                 ]}
               >
@@ -183,7 +183,7 @@ const LogIn = () => {
                 <Button
                   // type="primary"
                   htmlType="submit"
-                  className="block w-[500px] h-[56px] px-2 py-4 mt-2 text-white bg-gradient-to-r from-red-500 to-red-800 rounded-lg hover:bg-red-600"
+                  className="block w-[500px] h-[56px] px-2 py-4 mt-2 text-white bg-gradient-to-r from-red-500 to-red-800 rounded-lg hover:bg-gradient-to-r hover:from-red-500 hover:to-red-800"
                 >
                   Log in
                 </Button>
