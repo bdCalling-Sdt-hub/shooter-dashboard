@@ -3,6 +3,7 @@ import { useGetEventREgisterListDetailsQuery } from "../../../redux/Features/get
 import { useState } from "react";
 import { Modal, Space, Table } from "antd";
 import { BsInfoCircle } from "react-icons/bs";
+import EventRegistrationCsv from "../../../Components/EventRegistrationCsv";
 
 
 const EventRegisterListDetails = () => {
@@ -76,11 +77,11 @@ const EventRegisterListDetails = () => {
       dataIndex: "gender",
       key: "gender",
     },
-    {
-        title: "Sharing Rifle",
-        dataIndex: "sharingRifle",
-        key: "sharingRifle",
-      },
+    // {
+    //     title: "Sharing Rifle",
+    //     dataIndex: "sharingRifle",
+    //     key: "sharingRifle",
+    //   },
     {
       title: "Registration Date",
       key: "date",
@@ -139,6 +140,10 @@ const EventRegisterListDetails = () => {
             picker="month"
             suffixIcon
           />  */}
+          {
+            data?.data?.attributes.length &&  <EventRegistrationCsv data={data?.data?.attributes || []} />
+          }
+         
         </div>
         <div className="bg-[#281F1F] border-2 border-red-500 rounded-t-lg mt-[24px]">
           <div className="flex py-[22px] mx-[20px] justify-between items-center">

@@ -76,7 +76,7 @@ const DashboardUserList = () => {
           render: (_, record) => (
             <Space size="middle">
              
-                <BsInfoCircle  onClick={() => handleView(record)}  size={18} className="text-[red] " />
+                <BsInfoCircle  onClick={() => handleView(record)}  size={18} className="text-[red] cursor-pointer" />
               
               {/* <a><RxCross2 size={18} className='text-[red]'/></a> */}
             </Space>

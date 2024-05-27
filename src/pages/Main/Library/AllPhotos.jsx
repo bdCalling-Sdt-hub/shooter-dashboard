@@ -4,6 +4,7 @@ import { useGetAllPhotosQuery } from "../../../redux/Features/getAllPhotosApi";
 import { FaPlus } from "react-icons/fa6";
 import baseURL from "../../../config";
 import Swal from "sweetalert2";
+import { Image } from "antd";
 
 const AllPhotos = () => {
   const navigate = useNavigate();
@@ -75,14 +76,20 @@ const AllPhotos = () => {
               className="border-2 rounded-md  border-[#FA1131] p-3"
             >
               <div className="">
-                <img
+                {/* <img
                   className="h-[90%]"
                   key={index}
                   src={`${import.meta.env.VITE_BASE_URL}${
                     item?.image?.publicFileURL
                   }`}
                   alt=""
-                />
+                /> */}
+                <Image
+    width={350}
+    src={`${import.meta.env.VITE_BASE_URL}${
+      item?.image?.publicFileURL
+    }`}
+  />
               </div>
 
               <div className="lg:flex gap-2 my-3 ">
