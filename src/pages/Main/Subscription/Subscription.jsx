@@ -32,15 +32,16 @@ const Subscription = () => {
         </div>
       </div>
       }
-      
-      <div className="grid grid-cols-2 gap-5">
+      {
+        data?.data?.attributes.length === 0 ? <p className="text-white text-[24px] text-center">No Subscription Found</p>:<div className="grid grid-cols-2 gap-5">
         {
             data?.data?.attributes?.map((item,index)=>(
               <SubscriptionCard key={index} item={item}/>
             ))
         }
-       
       </div>
+      }
+      
     </div>
   );
 };

@@ -17,28 +17,28 @@ const Status = () => {
                 <LuBadgeDollarSign size={81} color="white" className="bg-[#FA1131] p-[10px] rounded-full"/>
                 <div className="">
                     <p className="text-white">Total Earnings</p>
-                    <h1 className="text-white text-[44px]">R {result?.totalEarnings}</h1>
+                    <h1 className="text-white text-[44px]">R {result?.totalEarnings || 0}</h1>
                 </div>
             </div>
             <div className="bg-[#281F1F] px-[20px] py-[32px] flex justify-between items-center rounded-lg border-2 border-[#FA1131]">
                 <MdEmojiEvents size={81} color="white" className="bg-[#FA1131] p-[10px] rounded-full"/>
                 <div className="">
                     <p className="text-white">All Event</p>
-                    <h1 className="text-white text-[44px]">{result?.totalEvents}</h1>
+                    <h1 className="text-white text-[44px]">{result?.totalEvents || 0}</h1>
                 </div>
             </div>
             <div className="bg-[#281F1F] px-[20px] py-[32px] flex justify-between items-center rounded-lg border-2 border-[#FA1131]">
                 <FaUsers size={81} color="white" className="bg-[#FA1131] p-[10px] rounded-full"/>
                 <div className="">
                     <p className="text-white">All User</p>
-                    <h1 className="text-white text-[44px]">{result?.allUsers}</h1>
+                    <h1 className="text-white text-[44px]">{result?.allUsers || 0}</h1>
                 </div>
             </div>
             <div className="bg-[#281F1F] px-[20px] py-[32px] flex justify-between items-center rounded-lg border-2 border-[#FA1131]">
                 <RiUserStarLine size={81} color="white" className="bg-[#FA1131] p-[10px] rounded-full"/>
                 <div className="">
                     <p className="text-white">Active User</p>
-                    <h1 className="text-white text-[44px]">{result?.paidUsers}</h1>
+                    <h1 className="text-white text-[44px]">{result?.paidUsers || 0}</h1>
                 </div>
             </div>
         </div>

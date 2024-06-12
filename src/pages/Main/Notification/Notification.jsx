@@ -25,7 +25,8 @@ const Notification = () => {
                 Notification
               </h1>
             </div>
-            <div className="flex flex-col">
+            {
+              data?.data?.attributes?.length === 0 ? <h1 className="text-[24px] text-primary text-center text-white font-semibold pb-3">No Notification Found</h1> : <div className="flex flex-col">
               {
                 data?.data?.attributes?.map((item,index)=>(
                   <NotificationCart key={item?._id} item={item}/>
@@ -33,6 +34,8 @@ const Notification = () => {
               }
             
             </div>
+            }
+            
             <div className="flex justify-center my-10">
               <Pagination
                 onChange={onChange}

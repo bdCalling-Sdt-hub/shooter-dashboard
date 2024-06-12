@@ -15,10 +15,14 @@ const Events = () => {
     setCurrentPage(values);
   };
 
-  const {data:AllEvent,isSuccess,isLoading} = useGetAllEventQuery(currentPage);
-  console.log("alllllll",AllEvent);
-  if(isLoading){
-    return <Loading/>
+  const {
+    data: AllEvent,
+    isSuccess,
+    isLoading,
+  } = useGetAllEventQuery(currentPage);
+  console.log("alllllll", AllEvent);
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -40,18 +44,15 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-3 my-7">
-        {
-          AllEvent?.data?.attributes?.map((event)=>(
-            <EventCart key={event._id} event={event}/>
-            
-          ))
-        }
-            
-            
-         
-      </div>
-           
+      {AllEvent?.data?.attributes?.length === 0 ? (
+        <p className="text-white text-[24px] text-center">No Event Found</p>
+      ) : (
+        <div className="grid lg:grid-cols-4 gap-3 my-7">
+          {AllEvent?.data?.attributes?.map((event) => (
+            <EventCart key={event._id} event={event} />
+          ))}
+        </div>
+      )}
 
       <div className="flex justify-center my-10">
         <Pagination
@@ -59,8 +60,8 @@ const Events = () => {
           defaultCurrent={1}
           current={currentPage}
           pageSize={8}
-            // total={totalMembershipCart}
-            total={AllEvent?.pagination?.totalEvents}
+          // total={totalMembershipCart}
+          total={AllEvent?.pagination?.totalEvents}
         />
       </div>
     </div>
