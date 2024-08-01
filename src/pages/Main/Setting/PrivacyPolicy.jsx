@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
           Privacy Policy
         </h1>
       </div>
-      <div className=" text-justify mt-[24px] bg-white h-[70vh] overflow-y-auto border-2 p-2 text-white" dangerouslySetInnerHTML={{__html: content}}>
+      <div className=" text-justify mt-[24px] bg-black text-white h-[70vh] overflow-y-auto border-2 p-2" dangerouslySetInnerHTML={{__html: content}}>
         
         </div>
     <Link to='/settings/edit-privacy-policy'className="absolute text-center bottom-[-60px] bg-gradient-to-r from-red-500 via-red-600 to-red-800 

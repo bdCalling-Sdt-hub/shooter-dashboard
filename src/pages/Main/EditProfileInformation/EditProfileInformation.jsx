@@ -67,6 +67,7 @@ const EditProfileInformation = () => {
           image: fileList[0]?.originFileObj,
           phoneNumber,
         };
+        console.log(updateProfile);
         const formData = new FormData();
         formData.append("name", updateProfile?.name);
         formData.append("email", updateProfile?.email);
@@ -265,7 +266,8 @@ const EditProfileInformation = () => {
                           items-center 
                           text-white
                           gap-4 inline-flex outline-none focus:border-none focus:bg-[#706768] hover:bg-[#706768]"
-                      />
+                     readOnly
+                     />
                     </Form.Item>
                   </div>
                   <div className="flex-1">

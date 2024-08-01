@@ -13,6 +13,7 @@ const DashboardUserList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState();
   const { data: usersAll , isLoading, isSuccess } = useGetAllUserQuery();
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if(isLoading){
         <Loading/>
       }
@@ -31,7 +32,7 @@ const DashboardUserList = () => {
             <div className="flex gap-2 items-center">
               <img
                 className="w-[34px] h-[34px] rounded-full"
-                src={`${import.meta.env.VITE_BASE_URL}${record?.image?.publicFileURL}`}
+                src={`${import.meta.env.VITE_BASE_URL}/${record?.image?.publicFileURL}`}
                 alt=""
               />
               <p className="font-medium">{record.name}</p>
@@ -47,6 +48,9 @@ const DashboardUserList = () => {
           title: "Email",
           dataIndex: "email",
           key: "email",
+          render: (_, record) => (
+            <p>{emailPattern.test(record?.email) ?  record?.email : "Apple Or Facebook User"}</p>
+          )
         },
         {
           title: "Club Name",
@@ -127,7 +131,7 @@ const DashboardUserList = () => {
       >
       <div>
         <div style={{fontFamily:'Aldrich'}} className="flex justify-center items-center gap-2 flex-col border-b border-b-gray-300">
-          <img className="w-[140px] h-[140px] rounded-full my-4"   src={`${import.meta.env.VITE_BASE_URL}${user?.image?.publicFileURL}`} alt="" />
+          <img className="w-[140px] h-[140px] rounded-full my-4"   src={`${import.meta.env.VITE_BASE_URL}/${user?.image?.publicFileURL}`} alt="" />
           <p className="text-white text-[16px] mb-[16px]">{user?.name}</p>
         </div>
         <div style={{fontFamily:'Aldrich'}} className="p-[20px] text-white">
