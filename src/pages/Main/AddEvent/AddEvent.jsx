@@ -22,6 +22,7 @@ import moment from "moment";
 import { usePostEventMutation } from "../../../redux/Features/PostEventApi";
 import Swal from "sweetalert2";
 import baseURL from "../../../config";
+import { usePostAddEventApiMutation } from "../../../redux/post/postAddEventApi";
 dayjs.extend(buddhistEra);
 const { Title } = Typography;
 
@@ -43,6 +44,7 @@ const AddEvent = () => {
   const [eventDate, setEventDate] = useState("");
   const [closeDate, setCloseDate] = useState("");
   const [setEvent, response] = usePostEventMutation();
+  const [setData,{isLoading:loading}] = usePostAddEventApiMutation()
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const editor = useRef(null);
@@ -105,12 +107,13 @@ const AddEvent = () => {
       }
       // await setEvent(formData);
       console.log(formData);
-      const response = await baseURL.post(`/events/add`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      // const response = await baseURL.post(`/events/add`, formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     authorization: `Bearer ${localStorage.getItem("token")}`,
+      //   },
+      // });
+      const response = await setData({formData});
 
       console.log(response?.data);
       if (response.data?.statusCode == 201) {
@@ -121,9 +124,9 @@ const AddEvent = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1600);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1600);
         navigate("/events");
       }
     } catch (error) {
@@ -252,7 +255,7 @@ const AddEvent = () => {
             >
               <Input
                 // onChange={(e) => setBlogName(e.target.value)}
-                placeholder="Rand 600"
+                placeholder="Entry Fee"
                 className="p-4 bg-[#FFE7EA4F]
             rounded w-full 
             justify-start 

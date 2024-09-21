@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     //authentication start
     // login:loginSlice,
-    [baseApi.reducerPath]:baseApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
 
   },
   middleware:(getDefaultMiddleware)=>{

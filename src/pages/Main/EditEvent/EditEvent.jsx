@@ -25,10 +25,12 @@ import moment from "moment";
 import Loading from "../../../Components/Loading";
 import baseURL from "../../../config";
 import Swal from "sweetalert2";
+import { usePostEditEventMutation } from "../../../redux/post/postEditEventApi";
 
 const EditEvent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [setData,{isLoading:loading}] = usePostEditEventMutation()
   console.log(id);
   const { data, isSuccess, isError, isLoading } = useGetSingleEventQuery(id);
   const [closeDate, setCloseDate] = useState(data?.data?.attributes?.closeDate);
@@ -106,14 +108,15 @@ const EditEvent = () => {
         formData.append("image", updateImage);
       }
 
-      const response = await baseURL.put(`/events/update/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      console.log(response);
-      if (response.data?.statusCode === 200) {
+      // const response = await baseURL.put(`/events/update/${id}`, formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     authorization: `Bearer ${localStorage.getItem("token")}`,
+      //   },
+      // });
+      const response = await setData({formData,id})
+      console.log("ahad===========",response);
+      if (response.data?.status == "success") {
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -121,9 +124,9 @@ const EditEvent = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1600);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1600);
         navigate("/events");
       }
     } catch (error) {

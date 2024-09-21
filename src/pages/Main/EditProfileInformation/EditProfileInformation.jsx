@@ -10,11 +10,13 @@ import { useGetSingleUserQuery } from "../../../redux/Features/getSingleUserApi"
 import Loading from "../../../Components/Loading";
 import baseURL from "../../../config";
 import Swal from "sweetalert2";
+import { useGetUploadProfileApiMutation } from "../../../redux/post/postUpdateProfileAPi";
 
 const EditProfileInformation = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const {data,isError,isLoading} = useGetSingleUserQuery(id);
+    const [setData, { isLoading: loading }] = useGetUploadProfileApiMutation()
     const user = data?.data?.attributes;
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
@@ -61,6 +63,7 @@ const EditProfileInformation = () => {
         },
       };
       const handleUpdateProfile = async (values) => {
+        try {
         console.log(values);
         const updateProfile = {
           ...values,
@@ -75,13 +78,16 @@ const EditProfileInformation = () => {
         if (fileList[0]?.originFileObj) {
           formData.append("image", fileList[0]?.originFileObj);
         }
-        try {
-          const response = await baseURL.patch(`/user/update/${id}`, formData,{
-            headers: {
-              "Content-Type": "multipart/form-data",
-              authentication: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+        
+          // const response = await baseURL.patch(`/user/update/${id}`, formData,{
+          //   headers: {
+          //     "Content-Type": "multipart/form-data",
+          //     authentication: `Bearer ${localStorage.getItem("token")}`,
+          //   },
+          // });
+          const response = await setData({formData,id});
+          console.log("aiman",response);
+          
           if (response?.data?.statusCode == 200) {
             Swal.fire({
               position: "top-center",
@@ -96,8 +102,8 @@ const EditProfileInformation = () => {
               JSON.stringify(response?.data?.data?.attributes)
             );
             console.log(response.data);
-            navigate('/', { replace: true });
-            setTimeout(()=>window.location.reload() , 1700);
+            navigate('/profile-information', { replace: true });
+            // setTimeout(()=>window.location.reload() , 1700);
             
           }
         } catch (error) {
