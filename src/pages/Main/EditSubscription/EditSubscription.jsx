@@ -7,11 +7,13 @@ import Loading from '../../../Components/Loading';
 import { useGetSingleSubscriptionQuery } from '../../../redux/Features/getSingleSubscription';
 import baseURL from '../../../config';
 import Swal from 'sweetalert2';
+import { usePostEditSubscriptionMutation } from '../../../redux/post/postEditSubscriptionApi';
 
 const EditSubscription = () => {
     const navigate = useNavigate();
     const {id} = useParams()
     const {data,isLoading,isSuccess} = useGetSingleSubscriptionQuery(id);
+    const [setData,{isLoading:loading}] = usePostEditSubscriptionMutation()
     const subscriptionType = [
         {
           type: "standard",
@@ -25,19 +27,20 @@ const EditSubscription = () => {
       }
       console.log(data?.data?.attributes);
     const handleEditSubscription = async (values) => {
-        console.log(values);
+        console.log("=====>",values);
         try {
-            const response = await baseURL.patch(
-                `/subscription/update-subscription/${id}`,
-                values,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            )
-            console.log(response);
+            // const response = await baseURL.patch(
+            //     `/subscription/update-subscription/${id}`,
+            //     values,
+            //     {
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             authorization: `Bearer ${localStorage.getItem("token")}`,
+            //         },
+            //     }
+            // )
+            const response = await setData({values,id})
+            console.log("ahad",response);
             if(response?.data?.statusCode == 200){
                 Swal.fire({ 
                     position: "top-center",
@@ -46,9 +49,9 @@ const EditSubscription = () => {
                     showConfirmButton: false,
                     timer: 1500,
                 })
-                setTimeout(() => {
-                    window.location.reload();
-                })
+                // setTimeout(() => {
+                //     window.location.reload();
+                // })
                 navigate("/subscription")
             }
         } catch (error) {

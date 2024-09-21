@@ -4,11 +4,12 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import baseURL from '../../../config';
 import Swal from 'sweetalert2';
+import { usePostAddDocumentMutation } from '../../../redux/post/postAddDocumentApi';
 
 const AddDocument = () => {
     const navigate = useNavigate();
     const [updateImage, setUpdateImage] = useState(null);
- 
+ const [setData, { isLoading: loading }] = usePostAddDocumentMutation();
   const [previewImage, setPreviewImage] = useState(null);
     const handleImageChange = (e) => {
         
@@ -23,12 +24,13 @@ const AddDocument = () => {
         if (updateImage) {
             formData.append("document", updateImage);
           }
-          const response = await baseURL.post(`/library/documents`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+          // const response = await baseURL.post(`/library/documents`, formData, {
+          //   headers: {
+          //     "Content-Type": "multipart/form-data",
+          //     authorization: `Bearer ${localStorage.getItem("token")}`,
+          //   },
+          // });
+          const response = await setData({ formData });
           console.log(response);
           console.log(response.data?.statusCode);
           if (response.data?.statusCode === 200) {

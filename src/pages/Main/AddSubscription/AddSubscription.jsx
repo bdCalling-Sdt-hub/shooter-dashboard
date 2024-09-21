@@ -3,6 +3,7 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import baseURL from "../../../config";
 import Swal from "sweetalert2";
+import { usePostAddSubscriptionMutation } from "../../../redux/post/postAddSubscriptionApi";
 
 const subscriptionType = [
   {
@@ -15,21 +16,28 @@ const subscriptionType = [
 
 const AddSubscription = () => {
   const navigate = useNavigate();
+  const [setData,{isLoading:loading}] = usePostAddSubscriptionMutation()
 
   const handleAddSubscription = async (values) => {
     console.log(values);
     try {
-      const response = await baseURL.post(
-        "/subscription/add-subscription",
-        values,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      // const response = await baseURL.post(
+      //   "/subscription/add-subscription",
+      //   values,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       authorization: `Bearer ${localStorage.getItem("token")}`,
+      //     },
+      //   }
+      // );
+      
+      const response = await setData({values})
+      
+      
       console.log(response);
+      
+      
       if (response?.data?.statusCode == 200) {
         Swal.fire({
           position: "top-center",

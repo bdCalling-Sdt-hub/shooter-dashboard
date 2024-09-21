@@ -4,10 +4,12 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { Navigate, useNavigate } from 'react-router-dom';
 import baseURL from '../../../config';
 import Swal from 'sweetalert2';
+import { usePostAddPhotoMutation } from '../../../redux/post/postAddPhotoApi';
 
 const AddPhotos = () => {
     const navigate = useNavigate();
     const [updateImage, setUpdateImage] = useState(null);
+    const [setData, { isLoading: loading }] = usePostAddPhotoMutation()
  
   const [previewImage, setPreviewImage] = useState(null);
     const handleImageChange = (e) => {
@@ -23,12 +25,15 @@ const AddPhotos = () => {
         if (updateImage) {
             formData.append("image", updateImage);
           }
-          const response = await baseURL.post(`/library/photos`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+          // const response = await baseURL.post(`/library/photos`, formData, {
+          //   headers: {
+          //     "Content-Type": "multipart/form-data",
+          //     authorization: `Bearer ${localStorage.getItem("token")}`,
+          //   },
+          // });
+
+          const response = await setData({formData})
+
           console.log(response);
           if (response.data?.statusCode === 200) {
             Swal.fire({
@@ -38,9 +43,9 @@ const AddPhotos = () => {
               showConfirmButton: false,
               timer: 1500,
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 1600);
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 1600);
             navigate("/library/photos");
           }
       }

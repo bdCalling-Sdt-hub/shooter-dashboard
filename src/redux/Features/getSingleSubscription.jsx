@@ -4,6 +4,7 @@ const getSingleSubscription = baseApi.injectEndpoints({
     endpoints:(builder)=>({
         getSingleSubscription:builder.query({
             query:(id)=>`/subscription/get-subscription/${id}`,
+            providesTags:["subscription"]
         })
     })
 })
