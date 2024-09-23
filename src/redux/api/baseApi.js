@@ -45,7 +45,10 @@ export const baseApi = createApi({
     "event",
     "subscription",
     "photo",
-    "documents"
+    "documents",
+    "PrivacyPolicy",
+    "TermsAndConditions",
+    "AboutUs"
   ],
   endpoints: () => ({}),
 });

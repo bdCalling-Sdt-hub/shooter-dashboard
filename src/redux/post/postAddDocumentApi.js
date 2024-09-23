@@ -5,7 +5,7 @@ const postAddDocumentationApi = baseApi.injectEndpoints({
     endpoints:(builder)=>({
         postAddDocument:builder.mutation({
             query:({formData})=>({
-                url:`/library/photos`,
+                url:`/library/documents`,
                 method:"POST",
                 body:formData
             }),

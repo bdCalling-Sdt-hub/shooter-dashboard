@@ -21,6 +21,8 @@ const AddDocument = () => {
 
       const handleAddPhotos = async () => {
         const formData = new FormData();
+        console.log(updateImage);
+        
         if (updateImage) {
             formData.append("document", updateImage);
           }

@@ -46,7 +46,9 @@ body {
   border: 1px solid #FA1131;
 
 }
-
+.ant-picker-outlined{
+  background-color: #281F1F;
+}
 .custom-date-picker:hover {
   background-color: #281F1F;
   color: white;
@@ -127,7 +129,7 @@ body {
 }
 
 .ant-pagination .ant-pagination-item a {
-  color: white !important;
+  /* color: white !important; */
   /* background-color: black; */
   border-radius: 100%;
   z-index: -1;

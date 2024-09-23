@@ -6,11 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { useGetAboutUsQuery } from "../../../redux/Features/getAboutUsApi";
 import baseURL from "../../../config";
 import Swal from "sweetalert2";
+import { usePostAboutUsMutation } from "../../../redux/post/postAboutUsApi";
 
 const EditAboutUs = () => {
     const navigate = useNavigate();
     const editor = useRef(null);
     const {data,isSuccess,isLoading} = useGetAboutUsQuery();
+    const [setData,{isLoading:loading}] = usePostAboutUsMutation()
     const [content, setContent] = useState(data?.data?.attributes?.content);
     useEffect(()=>{
     setContent(data?.data?.attributes?.content);  
@@ -21,16 +23,17 @@ const EditAboutUs = () => {
     const handleUpdate = async ()=>{
       console.log(content);
       try {
-        const response = await baseURL.put(`/setting/about-us`, {
-          content: content
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authentication: `Bearer ${localStorage.getItem("token")}`,
-          }
-        }
-        )
+        // const response = await baseURL.put(`/setting/about-us`, {
+        //   content: content
+        // },
+        // {
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     authentication: `Bearer ${localStorage.getItem("token")}`,
+        //   }
+        // }
+        // )
+        const response = await setData({content:content})
         if(response?.data?.statusCode === 201){
           Swal.fire({
             position: "top-center",

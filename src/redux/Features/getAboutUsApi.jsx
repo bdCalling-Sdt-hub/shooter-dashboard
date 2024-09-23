@@ -4,6 +4,7 @@ const getAboutUsApi = baseApi.injectEndpoints({
     endpoints:(builder)=>({
         getAboutUs:builder.query({
             query:()=>`/setting/about-us`,
+            providesTags:["AboutUs"]
         })
     })
 })

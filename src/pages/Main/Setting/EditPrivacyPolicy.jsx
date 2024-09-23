@@ -8,34 +8,39 @@ import { useGetPrivacyPolicyQuery } from "../../../redux/Features/getPrivacyPoli
 import Swal from "sweetalert2";
 import JoditEditor from "jodit-react";
 import Loading from "../../../Components/Loading";
+import { usePostPricyPolicyApiMutation } from "../../../redux/post/postPrivacyPolicyApi";
 
 const EditPrivacyPolicy = () => {
   const navigate = useNavigate();
   const editor = useRef(null);
   const {data,isSuccess,isLoading} = useGetPrivacyPolicyQuery();
+  const [setData,{isLoading:loading}] = usePostPricyPolicyApiMutation()
   const [content, setContent] = useState(data?.data?.attributes?.content);
   useEffect(()=>{
   setContent(data?.data?.attributes?.content);  
   },[data])
   console.log("data",data);
-console.log(content);
 if(isLoading){ 
   return <Loading/> 
 }
 
   const handleUpdate = async ()=>{
-    console.log(content);
+    // console.log(content);
     try {
-      const response = await baseURL.put(`/setting/privacy-policy`, {
-        content: content
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authentication: `Bearer ${localStorage.getItem("token")}`,
-        }
-      }
-      )
+      // const response = await baseURL.put(`/setting/privacy-policy`, {
+      //   content: content
+      // },
+      // {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     authentication: `Bearer ${localStorage.getItem("token")}`,
+      //   }
+      // }
+      // )
+
+      const response = await setData({content:content})
+      console.log(response);
+      
       if(response?.data?.statusCode === 201){
         Swal.fire({
           position: "top-center",
@@ -49,7 +54,7 @@ if(isLoading){
       }
      
      
-      console.log(response);
+
     }catch(error){
       console.log(error);
       Swal.fire({

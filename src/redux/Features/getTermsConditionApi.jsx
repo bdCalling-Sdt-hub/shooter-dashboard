@@ -4,6 +4,7 @@ const getTermsConditionApi = baseApi.injectEndpoints({
     endpoints:(builder)=>({
         getTermsCondition:builder.query({
             query:()=>`/setting/terms-condition`,
+            providesTags:["TermsAndConditions"]
         })
     })
 })

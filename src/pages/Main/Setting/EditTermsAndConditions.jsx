@@ -6,12 +6,14 @@ import baseURL from "../../../config";
 import { useGetTermsConditionQuery } from "../../../redux/Features/getTermsConditionApi";
 import { useEffect, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
+import { usePostTermsAndConditionsMutation } from "../../../redux/post/postTermsAndConditionsApi";
 
 
 const EditTermsAndConditions = () => {
   const navigate = useNavigate();
   const editor = useRef(null);
   const {data,isSuccess,isLoading} = useGetTermsConditionQuery();
+  const [setData,{isLoading:loading}] = usePostTermsAndConditionsMutation()
   const [content, setContent] = useState(data?.data?.attributes?.content);
   useEffect(()=>{
   setContent(data?.data?.attributes?.content);  
@@ -22,16 +24,19 @@ console.log(content);
   const handleUpdate = async ()=>{
     console.log(content);
     try {
-      const response = await baseURL.put(`/setting/terms-condition`, {
-        content: content
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authentication: `Bearer ${localStorage.getItem("token")}`,
-        }
-      }
-      )
+      // const response = await baseURL.put(`/setting/terms-condition`, {
+      //   content: content
+      // },
+      // {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     authentication: `Bearer ${localStorage.getItem("token")}`,
+      //   }
+      // }
+      // )
+      const response = await setData({content:content})
+      console.log(response);
+      
       if(response?.data?.statusCode === 201){
         Swal.fire({
           position: "top-center",
