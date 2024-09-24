@@ -15,6 +15,8 @@ const AllUser = () => {
 if(isLoading){
   <Loading/>
 }
+console.log(usersAll?.data?.data);
+
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 console.log(usersAll);
   const columns = [
