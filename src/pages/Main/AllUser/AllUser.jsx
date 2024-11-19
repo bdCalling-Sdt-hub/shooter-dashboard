@@ -34,10 +34,10 @@ console.log(usersAll);
         <div className="flex gap-2 items-center">
           <img
             className="w-[34px] h-[34px] rounded-full"
-            src={`${import.meta.env.VITE_BASE_URL}/${record?.image?.publicFileURL}`}
+            src={`${import.meta.env.VITE_BASE_URL}${record?.image?.publicFileURL}`}
             alt=""
           />
-          <p className="font-medium">{record.name}</p>
+          <p className="font-medium">{record?.name}</p>
         </div>
       ),
     },
@@ -140,7 +140,7 @@ console.log(usersAll);
       >
       <div>
         <div style={{fontFamily:'Aldrich'}} className="flex justify-center items-center gap-2 flex-col border-b border-b-gray-300">
-          <img className="w-[140px] h-[140px] rounded-full my-4"   src={`${import.meta.env.VITE_BASE_URL}/${user?.image?.publicFileURL}`} alt="" />
+          <img className="w-[140px] h-[140px] rounded-full my-4"   src={`${import.meta.env.VITE_BASE_URL}${user?.image?.publicFileURL}`} alt="" />
           <p className="text-white text-[16px] mb-[16px]">{user?.name}</p>
         </div>
         <div style={{fontFamily:'Aldrich'}} className="p-[20px] text-white">

@@ -44,7 +44,7 @@ const AddEvent = () => {
   const [eventDate, setEventDate] = useState("");
   const [closeDate, setCloseDate] = useState("");
   const [setEvent, response] = usePostEventMutation();
-  const [setData,{isLoading:loading}] = usePostAddEventApiMutation()
+  const [setData, { isLoading: loading }] = usePostAddEventApiMutation();
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const editor = useRef(null);
@@ -101,7 +101,7 @@ const AddEvent = () => {
       formData.append("matches", JSON.stringify(event?.matches));
       formData.append("fee", event?.fee);
       formData.append("eventTime", event?.eventTime);
-      
+
       if (event?.image) {
         formData.append("image", event?.image?.fileList[0].originFileObj);
       }
@@ -113,7 +113,8 @@ const AddEvent = () => {
       //     authorization: `Bearer ${localStorage.getItem("token")}`,
       //   },
       // });
-      const response = await setData({formData});
+      const response = await setData({ formData });
+      console.log(response);
 
       console.log(response?.data);
       if (response.data?.statusCode == 201) {
@@ -161,7 +162,6 @@ const AddEvent = () => {
           //   onFinishFailed={handleCompanyInformationFailed}
           autoComplete="off"
         >
-          
           <div className="flex gap-5">
             <Form.Item
               name="eventName"
@@ -272,10 +272,7 @@ const AddEvent = () => {
           <div className="flex-1">
             <Form.Item
               label={
-                <span className="text-[white]  text-[18px]">
-                  {" "}
-                  Upload Image
-                </span>
+                <span className="text-[white]  text-[18px]"> Upload Image</span>
               }
               name="image"
               className="flex-1"
