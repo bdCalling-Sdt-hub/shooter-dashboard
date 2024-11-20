@@ -46,9 +46,9 @@ const AddSubscription = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1600);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1600);
         navigate("/subscription");
       }
     } catch (error) {
