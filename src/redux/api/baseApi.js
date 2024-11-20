@@ -35,7 +35,7 @@ export const baseApi = createApi({
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
-      headers.set("X-Custom-Header", "foobar");
+      // headers.set("X-Custom-Header", "foobar");
       return headers;
     },
   }),
